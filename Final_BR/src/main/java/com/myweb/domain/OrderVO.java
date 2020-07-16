@@ -6,7 +6,7 @@ public class OrderVO {
 
 	private int ono;
 	private int mno;
-	private int pno;
+	private String pname;
 	private String receiver_id;
 	private String memo;
 	private int total;
@@ -16,16 +16,16 @@ public class OrderVO {
 	public OrderVO() {
 	}
 
-	public OrderVO(int mno, int pno, String receiver_id, String memo, int total) {
+	public OrderVO(int mno, String pname, String receiver_id, String memo, int total) {
 		this.mno = mno;
-		this.pno = pno;
+		this.pname = pname;
 		this.receiver_id = receiver_id;
 		this.memo = memo;
 		this.total = total;
 	}
 
-	public OrderVO(int ono, int mno, int pno, String receiver_id, String memo, int total, int status) {
-		this(mno, pno, receiver_id, memo, total);
+	public OrderVO(int ono, int mno, String pname, String receiver_id, String memo, int total, int status) {
+		this(mno, pname, receiver_id, memo, total);
 		this.ono = ono;
 		this.status = status;
 	}
@@ -46,12 +46,14 @@ public class OrderVO {
 		this.mno = mno;
 	}
 
-	public int getPno() {
-		return pno;
+	
+
+	public String getPname() {
+		return pname;
 	}
 
-	public void setPno(int pno) {
-		this.pno = pno;
+	public void setPname(String pname) {
+		this.pname = pname;
 	}
 
 	public String getReceiver_id() {

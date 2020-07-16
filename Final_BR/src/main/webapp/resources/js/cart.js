@@ -52,6 +52,8 @@ function ordFromCart(){
       }
     }
     // pno, cno 보내기
+    
+    //input type hidden
     $("#prePno").val(pno);
     $("#preCno").val(cno);
     let cno2 = $("#prePno").val();

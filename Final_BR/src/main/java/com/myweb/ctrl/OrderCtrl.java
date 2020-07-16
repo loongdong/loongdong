@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.myweb.domain.CartDTO;
 import com.myweb.domain.Criterion;
+import com.myweb.domain.OrderVO;
 import com.myweb.domain.ProductVO;
 import com.myweb.service.CartService;
 import com.myweb.service.OrderService;
@@ -54,7 +55,7 @@ public class OrderCtrl {
 			log.info(">>> pvo.category" + plist.get(i).getCategory());
 		}
 
-		return new ResponseEntity<List<ProductVO>>(plist,HttpStatus.OK);
+		return new ResponseEntity<List<ProductVO>>(plist, HttpStatus.OK);
 	}
 
 	@PostMapping("/ocheck")
@@ -73,13 +74,9 @@ public class OrderCtrl {
 		 */
 	}
 
-	/*
-	 * @GetMapping(value = "/list/{mno}/{cno}/{page}", produces = {
-	 * MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE })
-	 * public ResponseEntity<CartDTO> list(@PathVariable("mno") int
-	 * mno, @PathVariable("page") int page) { // ArrayList<CommentVO> cList =
-	 * (ArrayList<CommentVO>) csv.getList(pno); Criterion cri = new Criterion(page,
-	 * 10); //csv.getList(cri, mno).getClist(); //return new
-	 * ResponseEntity<CartDTO>(csv.getList(cri, mno), HttpStatus.OK); }
-	 */
+	@PostMapping("/add")
+	public String addOrder(OrderVO ovo) {
+
+		return null;
+	}
 }
