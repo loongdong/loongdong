@@ -7,23 +7,25 @@
 <div class="container">
 	<h1>해피콘 주문/결제</h1>
 	<h3>주문상품정보</h3>
-	qkljsdalkjsdajl
+
 	<hr>
 	<table class="table table-hover" id="preorderList">
 		<thead>
 			<tr>
 				<th colspan="2">상품</th>
 				<th>가격(원)</th>
-				<th>구매시적립포인트</th>
 				<th>사이즈(아이스크림)</th>
 			</tr>
 		</thead>
 	</table>
-	<h3>
-		총 가격 : <span id="total"></span>원
-	</h3>
-	<hr>
 	<form name=orderForm action="">
+	<h3>
+	총 가격 : <input id="total" name="total" readonly="readonly">
+	</h3>
+	<h3>
+    구매 시 적립포인트 : <input id="mpoint" name="mpoint" readonly="readonly">
+  </h3>
+	<hr>
 		<h3>선물정보 입력</h3>
 		<h5>선물하는 분 정보</h5>
 		<hr>

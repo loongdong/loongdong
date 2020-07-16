@@ -39,7 +39,7 @@ function ordFromCart(){
     // mno세션에서 가져오기
     var mno = 1;
     var i;
-    for (i = 0; i < cnos.length; i++) {
+    for (i = 1; i < cnos.length-1; i++) {
       if (cnos[i].checked) {
         cno = cno + cnos[i].value + ",";
         console.log(cnos[i]);
@@ -104,12 +104,15 @@ function printCartPaging(cartTotal,page){
 function chkAll(){
 	console.log("클릭되는지확인");
 	var cnos = document.cartForm;
+	 console.log(cnos);
 	 if( $("#checkAll").is(':checked') ){
-		 for (i = 0; i < cnos.length; i++) {
+		
+		 for (i = 1; i < cnos.length-1; i++) {
 		     cnos[i].checked  =true;
+		     console.log(cnos[i]);
 		    }
 	      }else{
-	    	  for (i = 0; i < cnos.length; i++) {
+	    	  for (i = 1; i < cnos.length-1; i++) {
 	 		     cnos[i].checked  =false;
 	 		    }
 	      }
