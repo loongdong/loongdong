@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="CartMapper">
+
+	<insert id="add" parameterType="CartVO">
+		insert into
+		tbl_cart(cno,mno,pno)
+		values(seq_cart_cno.nextval,#{mno},#{pno})
+	</insert>
+	<delete id="del" parameterType="java.lang.Integer">
+		delete from tbl_cart where
+		cno=#{cno}
+	</delete>
+	<select id="list" resultType="CartVO"
+		parameterType="java.util.HashMap">
+
+		 <![CDATA[    
+    select cno, pno, pname, category, price, pimg
+    from (select /*+INDEX(tbl_product pk_product)*/
+      rownum as rn, tc.cno as cno, tp.pno as pno, pname as pname,category as category, price as price, pimg as pimg
+      from tbl_product tp INNER JOIN TBL_CART tc
+    ON tp.PNO = tc.PNO WHERE tc.mno = #{mno}
+       and rownum <= #{cri.pageNum} * #{cri.amount})
+    where rn > (#{cri.pageNum}-1) * #{cri.amount}
+    ]]>
+	</select>
+
+	<select id="test" resultType="java.lang.String"
+		parameterType="java.lang.Integer">
+		select sizename from tbl_size where
+		price=#{price}
+	</select>
+	<select id="total" resultType="java.lang.Integer"
+		parameterType="java.lang.Integer">
+		select count(cno) from tbl_cart where
+		mno=#{mno}
+	</select>
+
+	<select id="chk" resultType="java.lang.Integer"
+		parameterType="CartVO">
+		select count(cno) from tbl_cart where
+		pno=#{pno} and
+		mno=#{mno}
+	</select>
+</mapper>
