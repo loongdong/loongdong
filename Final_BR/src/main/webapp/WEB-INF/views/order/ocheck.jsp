@@ -7,25 +7,26 @@
 <div class="container">
 	<h1>해피콘 주문/결제</h1>
 	<h3>주문상품정보</h3>
-
 	<hr>
 	<table class="table table-hover" id="preorderList">
 		<thead>
 			<tr>
+				<th>idx</th>
 				<th colspan="2">상품</th>
 				<th>가격(원)</th>
+				<th>수량</th>
 				<th>사이즈(아이스크림)</th>
 			</tr>
 		</thead>
 	</table>
 	<form name=orderForm action="/order/add">
-	<h3>
-	총 가격 : <input id="total" name="total" readonly="readonly">
-	</h3>
-	<h3>
-    구매 시 적립포인트 : <input id="mpoint" name="mpoint" readonly="readonly">
-  </h3>
-	<hr>
+		<h3>
+			총 가격 : <input id="total" name="total" readonly="readonly">
+		</h3>
+		<h3>
+			구매 시 적립포인트 : <input id="mpoint" name="mpoint" readonly="readonly">
+		</h3>
+		<hr>
 		<h3>선물정보 입력</h3>
 		<h5>선물하는 분 정보</h5>
 		<hr>
@@ -42,7 +43,6 @@
 		</table>
 		<hr>
 		<h5>선물받는 분 정보</h5>
-
 		<table>
 			<tr>
 				<th>받는분ID</th>
@@ -57,11 +57,10 @@
 				<th><textarea cols="" rows=""></textarea></th>
 			</tr>
 		</table>
-		<input type="hidden" name="pname" value="">
-		<input type="hidden" name="mno" value="">
+		<input type="hidden" name="pname" value=""> <input
+			type="hidden" name="mno" value="">
 		<button type="button" onclick="addOrder()" class="btn btn-primary">구매하기</button>
 	</form>
-	
 </div>
 <script src="/resources/js/order.js"></script>
 <script>
