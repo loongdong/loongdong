@@ -29,6 +29,8 @@ import com.myweb.service.ProductService;
 
 @Controller
 @RequestMapping("/order/*")
+
+
 public class OrderCtrl {
 	private static Logger log = LoggerFactory.getLogger(OrderCtrl.class);
 
@@ -58,7 +60,7 @@ public class OrderCtrl {
 		return new ResponseEntity<List<ProductVO>>(plist, HttpStatus.OK);
 	}
 
-	@PostMapping("/ocheck")
+	@PostMapping(value = "/ocheck")
 	public void prelist(Model model, @RequestParam("cno") String cno, @RequestParam("pno") String pno) {
 		/*
 		 * String[] pArr = pno.split(","); List<ProductVO> plist = new
@@ -74,9 +76,19 @@ public class OrderCtrl {
 		 */
 	}
 
-	@PostMapping("/add")
-	public String addOrder(OrderVO ovo) {
-
+	@PostMapping(value = "/add", produces = "application/text;charset=utf-8")
+	public String addOrder(OrderVO ovo, @RequestParam("cno") String cno, @RequestParam("mpoint") String mpoint) {
+		log.info(">>>> orderadd IN");
+		log.info(">>>> mpoint : " + mpoint);
+		log.info(">>>> cno : " + cno);
+		
+		//오더테이블에 ovo 넣기
+		log.info("pname : " + ovo.getPname());
+		log.info("rid : " + ovo.getReceiver_id());
+		log.info("memo: " + ovo.getMemo());
+		log.info("mno : "+ovo.getMno());
+		log.info("total : "+ovo.getTotal());
+		log.info("amount : "+ovo.getAmount());
 		return null;
 	}
 }

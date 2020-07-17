@@ -12,8 +12,17 @@ public class OrderVO {
 	private int total;
 	private Date odate;
 	private int status;
+	private String amount;
 
 	public OrderVO() {
+	}
+
+	public String getAmount() {
+		return amount;
+	}
+
+	public void setAmount(String amount) {
+		this.amount = amount;
 	}
 
 	public OrderVO(int mno, String pname, String receiver_id, String memo, int total) {
@@ -24,10 +33,11 @@ public class OrderVO {
 		this.total = total;
 	}
 
-	public OrderVO(int ono, int mno, String pname, String receiver_id, String memo, int total, int status) {
+	public OrderVO(int ono, int mno, String pname, String receiver_id, String amount ,String memo, int total, int status) {
 		this(mno, pname, receiver_id, memo, total);
 		this.ono = ono;
 		this.status = status;
+		this.amount = amount;
 	}
 
 	public int getOno() {

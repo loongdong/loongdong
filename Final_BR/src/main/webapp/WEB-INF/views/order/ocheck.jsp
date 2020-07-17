@@ -19,7 +19,7 @@
 			</tr>
 		</thead>
 	</table>
-	<form name=orderForm action="/order/add">
+	<form id="orderForm" action="/order/add" method="post">
 		<h3>
 			총 가격 : <input id="total" name="total" readonly="readonly">
 		</h3>
@@ -54,11 +54,13 @@
 		<table>
 			<tr>
 				<th>메시지</th>
-				<th><textarea cols="" rows=""></textarea></th>
+				<th><input type="text" name="memo" <textarea cols="" rows=""></textarea>></th>
 			</tr>
 		</table>
-		<input type="hidden" name="pname" value=""> <input
-			type="hidden" name="mno" value="">
+		<input type="hidden" id="orderpname"name="pname" value="">
+		<input	type="hidden" id="orderamount" name="amount" value="">
+		<input type="hidden"	id="ordermno" name="mno" value="">
+		<input type="hidden"  id="ordercno" name="cno" value="${cno }">
 		<button type="button" onclick="addOrder()" class="btn btn-primary">구매하기</button>
 	</form>
 </div>

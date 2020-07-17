@@ -16,10 +16,11 @@ function addOrder(){
 	
 	console.log("addOrder 들어오나 확인");
 	// mno세션에서 가져오기
-    var mno = 1;
+    let mno = 1;
     let pricelength = $(".preprice").length;
     let tempPname = "";
     let tempAmount = "";
+    let tempMpoint = "";
     for (var i = 1; i < pricelength+1; i++) {
 		let findid = "#idx"+i;
 		console.log("findid : "+ findid);
@@ -29,7 +30,10 @@ function addOrder(){
 	}
     console.log("tempPname보내기 전 :" +tempPname);
     console.log("tempAmount보내기 전 :" +tempAmount);
-    let tempTotal = $("total").text();
+    $("#orderpname").val(tempPname);
+    $("#orderAmount").val(tempAmount);
+    $("#ordermno").val(mno);
+    $("#orderForm").submit();
 }
 function printpreolist(listArr){
 	
