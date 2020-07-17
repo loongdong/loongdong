@@ -11,25 +11,25 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.myweb.domain.CartDTO;
-import com.myweb.domain.Criterion;
+import com.ctc.wstx.shaded.msv_core.datatype.xsd.TotalDigitsFacet;
+import com.myweb.domain.MemberVO;
 import com.myweb.domain.OrderVO;
 import com.myweb.domain.ProductVO;
 import com.myweb.service.CartService;
+import com.myweb.service.MemberService;
 import com.myweb.service.OrderService;
 import com.myweb.service.ProductService;
 
 @Controller
 @RequestMapping("/order/*")
-
 
 public class OrderCtrl {
 	private static Logger log = LoggerFactory.getLogger(OrderCtrl.class);
@@ -40,6 +40,12 @@ public class OrderCtrl {
 	CartService csv;
 	@Inject
 	ProductService psv;
+	@Inject
+	MemberService msv;
+	
+	
+	
+	
 
 	@GetMapping(value = "/preolist/{pno}", produces = { MediaType.APPLICATION_XML_VALUE,
 			MediaType.APPLICATION_JSON_UTF8_VALUE })
@@ -75,20 +81,37 @@ public class OrderCtrl {
 		 * log.info(">>> pno : " + pno); log.info(">>> cno : " + cno);
 		 */
 	}
+	
+	@GetMapping("/ofinal")
+	public void ofinal(@RequestParam("mpoint")String mpoint,@RequestParam("totalMpoint")String totalMpoint, Model model ) {
+		model.addAttribute("totalMpoint", totalMpoint);
+		model.addAttribute("mpoint", mpoint);
+	}
 
-	@PostMapping(value = "/add", produces = "application/text;charset=utf-8")
-	public String addOrder(OrderVO ovo, @RequestParam("cno") String cno, @RequestParam("mpoint") String mpoint) {
-		log.info(">>>> orderadd IN");
-		log.info(">>>> mpoint : " + mpoint);
-		log.info(">>>> cno : " + cno);
+	@PostMapping(value = "/add", produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public String addOrder(OrderVO ovo, @RequestParam("mno") String mno, @RequestParam("cno") String cno,
+			@RequestParam("mpoint") String mpoint, Model model) {
+
+		int totalMpoint = 0;
+
+		if (osv.insertOrder(ovo) > 0) {
+			int mno1 = Integer.parseInt(mno);
+			int mpoint1 = Integer.parseInt(mpoint);
+			log.info(">>>>mpoint1"+mpoint1);
+			MemberVO mvo = new MemberVO(mno1, mpoint1); 
+			totalMpoint = msv.addmpoint(mvo);
+
+			String[] cArr = cno.split(",");
+			log.info("cArr.length : " + cArr.length);
+			for (int i = 0; i < cArr.length; i++) {
+				log.info(">>>" + cArr[i]);
+				int cno1 = Integer.parseInt(cArr[i]);
+				csv.delCart(cno1);
+			}
+		}
 		
-		//오더테이블에 ovo 넣기
-		log.info("pname : " + ovo.getPname());
-		log.info("rid : " + ovo.getReceiver_id());
-		log.info("memo: " + ovo.getMemo());
-		log.info("mno : "+ovo.getMno());
-		log.info("total : "+ovo.getTotal());
-		log.info("amount : "+ovo.getAmount());
-		return null;
+		model.addAttribute("mpoint", mpoint);
+		model.addAttribute("totalMpoint", totalMpoint);
+		return "redirect:/order/ofinal";
 	}
 }

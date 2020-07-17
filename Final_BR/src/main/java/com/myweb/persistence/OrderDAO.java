@@ -1,8 +1,8 @@
 package com.myweb.persistence;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.myweb.domain.OrderVO;
 
 public interface OrderDAO {
-
+	public int insertOrder(OrderVO ovo);
+	public int deleteOrder(int ono);
 }

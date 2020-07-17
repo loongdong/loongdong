@@ -31,7 +31,7 @@ function addOrder(){
     console.log("tempPname보내기 전 :" +tempPname);
     console.log("tempAmount보내기 전 :" +tempAmount);
     $("#orderpname").val(tempPname);
-    $("#orderAmount").val(tempAmount);
+    $("#orderamount").val(tempAmount);
     $("#ordermno").val(mno);
     $("#orderForm").submit();
 }
@@ -57,15 +57,17 @@ function printpreolist(listArr){
 		ptrTag +='</th>';
 		if(pvo.category == 'icecone'){
 			ptrTag += '<th><button data-price=4000 id="ksize" class="checksize btn btn-outline-dark btn-block" >싱글킹(145g)</button>'
-			ptrTag += '<button data-price=3200 id="rsize" class="checksize btn btn-outline-dark btn-block">싱글레귤러(115g)</button></th>'
+			ptrTag += '<button data-price=3200 id="rsize" class="basicclick checksize btn btn-outline-dark btn-block">싱글레귤러(115g)</button></th>'
 			ptrTag += '</th>';
 		}
 		
 	}
-	
 	ptrTag += '</tr></tbody>';
 	$("#preorderList").append(ptrTag).trigger("create");
+	//기본값 선택 싱글레귤러
+	$(".basicclick").trigger("click");
 }
+
 $(document).on("click",".checksize",function() {
 	let nametr = $(this).closest("tr");
 	let nametag = $(nametr).find(".prepname");
