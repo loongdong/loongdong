@@ -13,8 +13,17 @@ public class OrderVO {
 	private Date odate;
 	private int status;
 	private String amount;
+	private int price;
 
 	public OrderVO() {
+	}
+
+	public int getPrice() {
+		return price;
+	}
+
+	public void setPrice(int price) {
+		this.price = price;
 	}
 
 	public String getAmount() {

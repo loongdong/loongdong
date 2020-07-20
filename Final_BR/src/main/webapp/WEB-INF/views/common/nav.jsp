@@ -25,7 +25,7 @@
 			</ul>
 
 			<ul>
-				<li><a href="#">Link 4</a></li>
+				<li><a href="/order/list">구매내역/선물내역 확인 페이지</a></li>
 				<li><a href="#">Link 5</a></li>
 				<li><a href="#">Link 6</a></li>
 			</ul>

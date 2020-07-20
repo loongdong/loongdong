@@ -15,6 +15,7 @@ public interface ProductService {
 	//0715 추가부분
 	
 	public ProductVO getpdetail(int pno);
+	public int getPrice(String pname);
 	
 	
 }

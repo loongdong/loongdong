@@ -42,10 +42,11 @@ public class OrderCtrl {
 	ProductService psv;
 	@Inject
 	MemberService msv;
-	
-	
-	
-	
+
+	@GetMapping("/list")
+	public void olist() {
+
+	}
 
 	@GetMapping(value = "/preolist/{pno}", produces = { MediaType.APPLICATION_XML_VALUE,
 			MediaType.APPLICATION_JSON_UTF8_VALUE })
@@ -66,8 +67,52 @@ public class OrderCtrl {
 		return new ResponseEntity<List<ProductVO>>(plist, HttpStatus.OK);
 	}
 
+	@PostMapping("/buylist")
+	public void buylist(Model model, @RequestParam("mno") int mno) {
+		log.info(">>>buylist : mno" + mno);
+		List<OrderVO> olist = osv.getbuyList(mno);
+		log.info(">>>olist : " + olist);
+		for (int i = 0; i < olist.size(); i++) {
+			log.info(">>> olist)" + olist.get(i).getPname());
+			log.info(">>> olist)" + olist.get(i).getAmount());
+		}
+	}
+
+	@PostMapping("/presentlist")
+	public void presentlist(Model model, @RequestParam("receiver_id") String receiver_id) {
+		log.info(">>>receiver_id : " + receiver_id);
+		List<OrderVO> templist = osv.getpresentList(receiver_id);
+		log.info(">>>olist : " + templist);
+		List<OrderVO> olist = new ArrayList<OrderVO>();
+		for (int i = 0; i < templist.size(); i++) {
+			log.info(">>> olist)" + templist.get(i).getPname());
+			log.info(">>> olist)" + templist.get(i).getAmount());
+			String[] pnameArr = templist.get(i).getPname().split(",");
+			String[] amountArr = templist.get(i).getAmount().split(",");
+			log.info("pnameArr.length : " + pnameArr.length);
+			for (int j = 0; j < pnameArr.length; i++) {
+				OrderVO ovo = new OrderVO();
+				ovo.setOno(templist.get(i).getOno());
+				ovo.setMemo(templist.get(i).getMemo());
+				ovo.setOdate(templist.get(i).getOdate());
+				ovo.setPname(pnameArr[j]);
+				ovo.setAmount(amountArr[j]);
+				ovo.setReceiver_id(receiver_id);
+				ovo.setStatus(templist.get(i).getStatus());
+				int price = psv.getPrice(pnameArr[j]);
+				ovo.setPrice(price);
+				olist.add(ovo);
+			}
+		}
+		log.info(">>> 테스트용"+  olist.get(0).getAmount());
+		model.addAttribute("presentlist", olist);
+	}
+
 	@PostMapping(value = "/ocheck")
 	public void prelist(Model model, @RequestParam("cno") String cno, @RequestParam("pno") String pno) {
+
+		log.info(">>>cno : " + cno);
+		log.info(">>>pno : " + pno);
 		/*
 		 * String[] pArr = pno.split(","); List<ProductVO> plist = new
 		 * ArrayList<ProductVO>(); for (int i = 0; i < pArr.length; i++) {
@@ -81,9 +126,10 @@ public class OrderCtrl {
 		 * log.info(">>> pno : " + pno); log.info(">>> cno : " + cno);
 		 */
 	}
-	
+
 	@GetMapping("/ofinal")
-	public void ofinal(@RequestParam("mpoint")String mpoint,@RequestParam("totalMpoint")String totalMpoint, Model model ) {
+	public void ofinal(@RequestParam("mpoint") String mpoint, @RequestParam("totalMpoint") String totalMpoint,
+			Model model) {
 		model.addAttribute("totalMpoint", totalMpoint);
 		model.addAttribute("mpoint", mpoint);
 	}
@@ -97,8 +143,8 @@ public class OrderCtrl {
 		if (osv.insertOrder(ovo) > 0) {
 			int mno1 = Integer.parseInt(mno);
 			int mpoint1 = Integer.parseInt(mpoint);
-			log.info(">>>>mpoint1"+mpoint1);
-			MemberVO mvo = new MemberVO(mno1, mpoint1); 
+			log.info(">>>>mpoint1" + mpoint1);
+			MemberVO mvo = new MemberVO(mno1, mpoint1);
 			totalMpoint = msv.addmpoint(mvo);
 
 			String[] cArr = cno.split(",");
@@ -109,7 +155,7 @@ public class OrderCtrl {
 				csv.delCart(cno1);
 			}
 		}
-		
+
 		model.addAttribute("mpoint", mpoint);
 		model.addAttribute("totalMpoint", totalMpoint);
 		return "redirect:/order/ofinal";

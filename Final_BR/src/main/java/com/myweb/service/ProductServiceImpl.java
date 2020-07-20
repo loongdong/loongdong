@@ -44,10 +44,15 @@ public class ProductServiceImpl implements ProductService{
 		return pdao.selectTotal(category);
 	}
 
-	//0715 추가부분
+	//0715 추가부분~~
 	@Override
 	public ProductVO getpdetail(int pno) {
 		return pdao.getpdetail(pno);
+	}
+
+	@Override
+	public int getPrice(String pname) {
+		return pdao.getprice(pname);
 	}
 
 }

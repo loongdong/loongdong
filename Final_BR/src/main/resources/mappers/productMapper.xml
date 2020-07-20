@@ -8,6 +8,8 @@
     rn,pno,pname,pimg FROM TBL_PRODUCT3
     WHERE category = 'icecone') WHERE rn<![CDATA[ < ]]>9
   </select>
+  
+  
 
   <select id="allList" resultType="ProductVO">
     SELECT pno,pname,pimg,category,HASHTAG FROM (SELECT ROW_NUMBER()
@@ -57,6 +59,10 @@
      <select id="detail" parameterType="java.lang.Integer" resultType="ProductVO">
        select pno, pimg, category, pname, price from tbl_product where pno = #{pno}
     </select>
+    <select id="price" parameterType="java.lang.String" resultType="java.lang.Integer">
+    SELECT price from tbl_product WHERE pname = #{pname}
+  </select>
+    
 </mapper>
 
 

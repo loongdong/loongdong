@@ -1,5 +1,7 @@
 package com.myweb.service;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
@@ -24,13 +26,13 @@ public class OrderServiceImpl implements OrderService{
 	}
 
 	@Override
-	public int getbuyList(int mno) {
-		return 0;
+	public List<OrderVO> getbuyList(int mno) {
+		return odao.getbuyList(mno);
 	}
 
 	@Override
-	public int getpresentList(String mid) {
-		return 0;
+	public List<OrderVO> getpresentList(String receiver_id) {
+		return odao.getPresentList(receiver_id);
 	}
 
 	@Override

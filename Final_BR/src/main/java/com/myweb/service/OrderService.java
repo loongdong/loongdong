@@ -1,13 +1,15 @@
 package com.myweb.service;
 
+import java.util.List;
+
 import com.myweb.domain.OrderVO;
 
 public interface OrderService {
 	
 	public int insertOrder(OrderVO ovo);
 	public int deleteOrder(int ono);
-	public int getbuyList(int mno);
-	public int getpresentList(String mid);
+	public List<OrderVO> getbuyList(int mno);
+	public List<OrderVO> getpresentList(String receiver_id);
 	public int modifyOrder(OrderVO ovo);
 	
 

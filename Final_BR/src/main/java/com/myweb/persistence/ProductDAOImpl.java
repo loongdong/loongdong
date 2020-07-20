@@ -59,4 +59,9 @@ public class ProductDAOImpl implements ProductDAO {
 	public ProductVO getpdetail(int pno) {
 		return sql.selectOne(ns + "detail",pno);
 	}
+
+	@Override
+	public int getprice(String pname) {
+		return sql.selectOne(ns+"price",pname);
+	}
 }

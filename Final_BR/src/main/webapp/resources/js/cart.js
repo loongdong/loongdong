@@ -1,3 +1,4 @@
+
 function listCart(param_mno,page){
 	let pageNo = page> 1 ? page : 1;
 	$.getJSON("/cart/list/"+param_mno+"/"+pageNo+".json",function(cdto){
@@ -20,15 +21,31 @@ function printListCart(listArr,cartTotal,page){
 		ulTag += '<th class=""><img src="/resources/img/img_IC/'+cvo.pimg+'"></th>';
 		ulTag += '<th class="">'+cvo.price+'</th>';
 		ulTag += '<th class="">0p</th>';
-		ulTag += '<th><button class="btn btn-outline-danger" data-pno="'+cvo.pno+'">구매하기</button><th></tr>';
-		
+		ulTag += '<th><button id="ordOneBtn" class="btn btn-outline-danger" data-pno="'+cvo.pno+'">구매하기</button><th></tr>';
 	}
-	
 	
 	ulTag += '</tbody>';
 	$("#cartList").append(ulTag).trigger("create");
 	printCartPaging(cartTotal,page);
 }
+
+
+
+//구매하기 버튼 눌렀을때 하나만 주문하기
+$(document).on("click", "#ordOneBtn", function(e) {
+	e.preventDefault(e);
+	console.log("하ㅓ나 주문하는 곳 들어오는가 확인");
+	
+	let pno2 = $(this).data("pno");
+	console.log(">>>pno2 : " + pno2);
+	let onetr = $(this).closest("tr");
+	let cno2 = onetr.find("input").val();
+	console.log(">>>cno2 : " +cno2);
+	$("#prePno").val(pno2);
+    $("#preCno").val(cno2);
+    $("#goOrder").submit();
+});
+
 
 
 function ordFromCart(){
@@ -53,24 +70,16 @@ function ordFromCart(){
     }
     // pno, cno 보내기
     
-    //input type hidden
+    // input type hidden
     $("#prePno").val(pno);
     $("#preCno").val(cno);
-    let cno2 = $("#prePno").val();
-    let pno2 = $("#preCno").val();
-    console.log(cno2);
-    console.log(pno2);
     
     $("#goOrder").submit();
           
-    /* $.ajax({
-		url : "/order/ocheck",
-		type : "post",
-		data : {
-			pno : pno,
-			cno : cno
-		}
-	});*/
+    /*
+	 * $.ajax({ url : "/order/ocheck", type : "post", data : { pno : pno, cno :
+	 * cno } });
+	 */
 }
 
 function printCartPaging(cartTotal,page){

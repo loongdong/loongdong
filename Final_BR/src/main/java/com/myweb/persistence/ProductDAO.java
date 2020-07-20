@@ -14,4 +14,5 @@ public interface ProductDAO {
 	
 	//0715 추가부분
 	public ProductVO getpdetail(int pno);
+	public int getprice(String pname);
 }

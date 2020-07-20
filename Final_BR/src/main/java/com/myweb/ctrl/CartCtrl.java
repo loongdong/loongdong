@@ -37,7 +37,7 @@ public class CartCtrl {
 		csv.addCart(cvo);
 		return "redirect:/";
 	}
-
+	
 	@GetMapping("/add")
 	public String addtest(CartVO cvo) {
 		log.info("mno : " + cvo.getMno());
