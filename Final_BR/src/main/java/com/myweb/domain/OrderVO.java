@@ -2,6 +2,8 @@ package com.myweb.domain;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class OrderVO {
 
 	private int ono;
@@ -10,6 +12,7 @@ public class OrderVO {
 	private String receiver_id;
 	private String memo;
 	private int total;
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date odate;
 	private int status;
 	private String amount;
@@ -42,7 +45,8 @@ public class OrderVO {
 		this.total = total;
 	}
 
-	public OrderVO(int ono, int mno, String pname, String receiver_id, String amount ,String memo, int total, int status) {
+	public OrderVO(int ono, int mno, String pname, String receiver_id, String amount, String memo, int total,
+			int status) {
 		this(mno, pname, receiver_id, memo, total);
 		this.ono = ono;
 		this.status = status;
@@ -64,8 +68,6 @@ public class OrderVO {
 	public void setMno(int mno) {
 		this.mno = mno;
 	}
-
-	
 
 	public String getPname() {
 		return pname;

@@ -1,7 +1,9 @@
 package com.myweb.ctrl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -18,8 +20,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ctc.wstx.shaded.msv_core.datatype.xsd.TotalDigitsFacet;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.myweb.domain.MemberVO;
 import com.myweb.domain.OrderVO;
 import com.myweb.domain.ProductVO;
@@ -67,31 +73,64 @@ public class OrderCtrl {
 		return new ResponseEntity<List<ProductVO>>(plist, HttpStatus.OK);
 	}
 
-	@PostMapping("/buylist")
-	public void buylist(Model model, @RequestParam("mno") int mno) {
-		log.info(">>>buylist : mno" + mno);
-		List<OrderVO> olist = osv.getbuyList(mno);
-		log.info(">>>olist : " + olist);
-		for (int i = 0; i < olist.size(); i++) {
-			log.info(">>> olist)" + olist.get(i).getPname());
-			log.info(">>> olist)" + olist.get(i).getAmount());
+	@ResponseBody
+	@PostMapping(value = "/buylist", produces = "application/text; charset=utf8")
+
+	public String buylist(Model model, @RequestParam("mno") int mno) {
+		String json = "";
+		List<OrderVO> templist = osv.getbuyList(mno);
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, Object> map = new HashMap<String, Object>();
+	
+		for (int i = 0; i < templist.size(); i++) {
+
+			String[] pnameArr = templist.get(i).getPname().split(",");
+			String[] amountArr = templist.get(i).getAmount().split(",");
+			log.info("pnameArr.length : " + pnameArr.length);
+			for (int j = 0; j < pnameArr.length; j++) {
+				OrderVO ovo = new OrderVO();
+				ovo.setMno(templist.get(i).getMno());
+				ovo.setOno(templist.get(i).getOno());
+				ovo.setMemo(templist.get(i).getMemo());
+				ovo.setOdate(templist.get(i).getOdate());
+				ovo.setPname(pnameArr[j]);
+				ovo.setAmount(amountArr[j]);
+				ovo.setReceiver_id(templist.get(i).getReceiver_id());
+				ovo.setStatus(templist.get(i).getStatus());
+				int price = psv.getPrice(pnameArr[j]);
+				ovo.setPrice(price);
+				map.put("ovo"+i, ovo);
+			}
 		}
+		try {
+			json = mapper.writeValueAsString(map);
+			json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(map);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		log.info(">>>>>" + json);
+		return json;
 	}
 
-	@PostMapping("/presentlist")
-	public void presentlist(Model model, @RequestParam("receiver_id") String receiver_id) {
+	@ResponseBody
+	@PostMapping(value = "/presentlist", produces = "application/text; charset=utf8")
+	public String presentlist(Model model, @RequestParam("receiver_id") String receiver_id) {
 		log.info(">>>receiver_id : " + receiver_id);
 		List<OrderVO> templist = osv.getpresentList(receiver_id);
 		log.info(">>>olist : " + templist);
-		List<OrderVO> olist = new ArrayList<OrderVO>();
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, Object> map = new HashMap<String, Object>();
+		String json = "";
 		for (int i = 0; i < templist.size(); i++) {
 			log.info(">>> olist)" + templist.get(i).getPname());
 			log.info(">>> olist)" + templist.get(i).getAmount());
 			String[] pnameArr = templist.get(i).getPname().split(",");
 			String[] amountArr = templist.get(i).getAmount().split(",");
 			log.info("pnameArr.length : " + pnameArr.length);
-			for (int j = 0; j < pnameArr.length; i++) {
+			for (int j = 0; j < pnameArr.length; j++) {
 				OrderVO ovo = new OrderVO();
+				ovo.setMno(templist.get(i).getMno());
 				ovo.setOno(templist.get(i).getOno());
 				ovo.setMemo(templist.get(i).getMemo());
 				ovo.setOdate(templist.get(i).getOdate());
@@ -101,11 +140,21 @@ public class OrderCtrl {
 				ovo.setStatus(templist.get(i).getStatus());
 				int price = psv.getPrice(pnameArr[j]);
 				ovo.setPrice(price);
-				olist.add(ovo);
+				map.put("ovo"+i, ovo);
 			}
+			
 		}
-		log.info(">>> 테스트용"+  olist.get(0).getAmount());
-		model.addAttribute("presentlist", olist);
+		try {
+			json = mapper.writeValueAsString(map);
+			log.info(json);
+			json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(map);
+			log.info(json);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		log.info(">>>>>" + json);
+		return json;
 	}
 
 	@PostMapping(value = "/ocheck")
@@ -155,7 +204,6 @@ public class OrderCtrl {
 				csv.delCart(cno1);
 			}
 		}
-
 		model.addAttribute("mpoint", mpoint);
 		model.addAttribute("totalMpoint", totalMpoint);
 		return "redirect:/order/ofinal";

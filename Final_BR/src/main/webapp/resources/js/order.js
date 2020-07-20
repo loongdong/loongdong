@@ -1,4 +1,42 @@
+function printOrdlist(ordlist){
+	// 지우고
+	$("#orderList thead:first-child").nextAll().remove();
+	console.log("컨트롤러에서 넘어온 값");
+	
+	console.log(ordlist);
+	let jsondata = JSON.parse(ordlist);
+	console.log(">>>jsondata : ");
+	console.log(jsondata);
+	//분리완료
+	
 
+	let orderPtrTag = '<tbody>';
+	let orderidx = 1;
+	
+	for (let ovo in jsondata) {
+		let tempArr = jsondata[ovo];
+		console.log(tempArr);
+		orderPtrTag += '<tr><th>'+orderidx+'</th>';
+		orderidx++;
+		let myArray = { odate:tempArr.odate, ono:tempArr.ono, pname:tempArr.pname, price:tempArr.price,
+				amount:tempArr.amount, receiver_id:tempArr.receiver_id, 
+				 omemo:tempArr.memo, status:tempArr.status
+		};
+		console.log("-------------------");
+		
+		console.log(myArray);
+		for(let key in myArray){
+			orderPtrTag += '<th class="">'+myArray[key]+'</th>';
+			/*
+			 * orderPtrTag += '<th>'+ovo.ono+'</th>'; orderPtrTag += '<th>'+ovo.pname+'</th>';
+			 * orderPtrTag += '<th>'+ovo.price+'</th>'; orderPtrTag += '<th>'+ovo.amount+'</th>';
+			 * orderPtrTag += '<th>'+ovo.receiver_id+'</th>';
+			 */
+			}
+	}
+	orderPtrTag += '</tr></tbody>';
+	$("#orderList").append(orderPtrTag).trigger("create");
+}
 function preOrderGet(pno){
 	console.log("preOrderGet IN")
 	$.getJSON("/order/preolist/"+pno+".json",function(plist){
@@ -64,7 +102,7 @@ function printpreolist(listArr){
 	}
 	ptrTag += '</tr></tbody>';
 	$("#preorderList").append(ptrTag).trigger("create");
-	//기본값 선택 싱글레귤러
+	// 기본값 선택 싱글레귤러
 	$(".basicclick").trigger("click");
 }
 
@@ -126,11 +164,11 @@ $(document).on("click",".checksize",function() {
 });
 
 
-//+ 눌렀을때
+// + 눌렀을때
 $(document).on("click",".pAnt",function(){ 
 	let thamount = $(this).closest("th");
 	let tramount = $(this).closest("tr");
-	//내가 선택한 상품의 기본값
+	// 내가 선택한 상품의 기본값
 	let realprice = $(tramount).find(".preprice").data("price");
 	let icechk = $(tramount).find(".prepname").data("category");
 	if(icechk == 'icecone'){
@@ -138,7 +176,7 @@ $(document).on("click",".pAnt",function(){
 	}
 	
 	realprice *=1;
-	//플마 버튼 눌렀을때 수량값 기본 1
+	// 플마 버튼 눌렀을때 수량값 기본 1
 	let amountspan = $(thamount).find(".preamount");
 	let pamount = $(amountspan).text();
 	pamount *=1;
@@ -176,14 +214,14 @@ $(document).on("click",".pAnt",function(){
 $(document).on("click",".mAnt",function(){
 	let thamount = $(this).closest("th");
 	let tramount = $(this).closest("tr");
-	//내가 선택한 상품의 기본값
+	// 내가 선택한 상품의 기본값
 	let realprice = $(tramount).find(".preprice").data("price");
 	let icechk = $(tramount).find(".prepname").data("category");
 	if(icechk == 'icecone'){
 		realprice = $(tramount).find(".checked").data("price");
 	}
 	realprice *=1;
-	//플마 버튼 눌렀을때 수량값 기본 1
+	// 플마 버튼 눌렀을때 수량값 기본 1
 	let amountspan = $(thamount).find(".preamount");
 	let pamount = $(amountspan).text();
 	pamount *=1;
