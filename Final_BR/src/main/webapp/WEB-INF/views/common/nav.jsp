@@ -68,8 +68,8 @@
             </c:if>
             <c:if test="${sesInfo ne null && sesInfo.mid ne null}">
               <ul>
-                <li class="logout"><a href="/member/logout"><img src="../resources/img/icon_logout.png" alt="LOGOUT"></a></li>
-                <li class="my-page"><a href="/member/mypage"><img src="../resources/img/icon_my.png" alt="MYPAGE"></a></li>
+                <li class="logout"><a href="/member/logout"><img src="/resources/img/icon_logout.png" alt="LOGOUT"></a></li>
+                <li class="my-page"><a href="/member/mypage"><img src="/resources/img/icon_my.png" alt="MYPAGE"></a></li>
                 </ul>
               </c:if>          
           </nav>

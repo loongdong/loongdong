@@ -11,6 +11,9 @@ public interface ProductService {
 	public List<ProductVO> getcateList(Criterion cri);
 	public List<ProductVO> getrankList();
 	public int getTotalCount(String category);
+	public ProductVO getProduct(int pno);
+	public List<ProductVO>  getRcList(String recommend);
+	public ProductVO getMaterial(String pname);
 	
 	//0715 추가부분
 	

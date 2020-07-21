@@ -11,14 +11,15 @@ function listCart(param_mno,page){
 }
 function printListCart(listArr,cartTotal,page){
 	console.log("printListCart IN")
+	
 	console.log(listArr);
 	$("#cartList thead:first-child").nextAll().remove();
 	let ulTag = '<tbody>';
 	for (let cvo of listArr) {
-		
+		console.log(cvo.pimg);
 		ulTag += '<tr><th class=""><input type="checkbox" value="'+cvo.cno+'"></th>';
+		ulTag += '<th class=""><img src="/images/'+cvo.pimg+'"></th>';
 		ulTag += '<th class="">'+cvo.pname+'</th>';
-		ulTag += '<th class=""><img src="/resources/img/img_IC/'+cvo.pimg+'"></th>';
 		ulTag += '<th class="">'+cvo.price+'</th>';
 		ulTag += '<th class="">0p</th>';
 		ulTag += '<th><button id="ordOneBtn" class="btn btn-outline-danger" data-pno="'+cvo.pno+'">구매하기</button><th></tr>';

@@ -44,6 +44,21 @@ public class ProductServiceImpl implements ProductService{
 		return pdao.selectTotal(category);
 	}
 
+	@Override
+	public ProductVO getProduct(int pno) {
+		return pdao.selectProduct(pno);
+	}
+
+	@Override
+	public List<ProductVO> getRcList(String recommend) {
+		return pdao.selectRecommend(recommend);
+	}
+
+	@Override
+	public ProductVO getMaterial(String pname) {
+		return pdao.selectMaterial(pname);
+	}
+
 	//0715 추가부분~~
 	@Override
 	public ProductVO getpdetail(int pno) {

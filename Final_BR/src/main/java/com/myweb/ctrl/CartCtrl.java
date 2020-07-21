@@ -30,24 +30,15 @@ public class CartCtrl {
 	@Inject
 	CartService csv;
 
-	@PostMapping("/add")
+	@GetMapping("/add")
 	public String add(CartVO cvo) {
-		log.info("mno : " + cvo.getMno());
-		log.info("pno : " + cvo.getPno());
+		log.info("mno : "+cvo.getMno());
+		log.info("pno : "+cvo.getPno());
 		csv.addCart(cvo);
 		return "redirect:/";
 	}
 	
-	@GetMapping("/add")
-	public String addtest(CartVO cvo) {
-		log.info("mno : " + cvo.getMno());
-		for (int i = 291; i < 350; i++) {
-			cvo.setPno(i);
-			csv.addCart(cvo);
-		}
-
-		return "redirect:/";
-	}
+	
 
 	@PostMapping("/del")
 	public String del(@RequestParam("cno") String cno) {

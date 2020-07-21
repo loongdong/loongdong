@@ -3,58 +3,65 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ProductMapper">
-  <select id="rank" resultType="ProductVO">
-    SELECT pno,pname,pimg,rn FROM (SELECT ROW_NUMBER() over(ORDER BY sellcnt) AS
-    rn,pno,pname,pimg FROM TBL_PRODUCT3
-    WHERE category = 'icecone') WHERE rn<![CDATA[ < ]]>9
-  </select>
-  
-  
+    <select id="rank" resultType="ProductVO">
+        SELECT pno,pname,pimg,rn FROM (SELECT ROW_NUMBER() over(ORDER BY sellcnt) AS
+        rn,pno,pname,pimg FROM TBL_PRODUCT
+        WHERE category = 'icecone') WHERE rn<![CDATA[ < ]]>9
+    </select>
 
-  <select id="allList" resultType="ProductVO">
-    SELECT pno,pname,pimg,category,HASHTAG FROM (SELECT ROW_NUMBER()
-    over(PARTITION BY category
-    ORDER BY SELLCNT) AS rn,pno,pname,pimg,category,HASHTAG FROM TBL_PRODUCT3)
-    where rn <![CDATA[ < ]]> 5
-  </select>
+    <select id="allList" resultType="ProductVO">
+        SELECT pno,pname,pimg,category,hashtag FROM (SELECT ROW_NUMBER()
+        over(PARTITION BY category
+        ORDER BY SELLCNT) AS rn,pno,pname,pimg,category,hashtag FROM TBL_PRODUCT)
+        where rn <![CDATA[ < ]]> 5
+    </select>
 
-  <select id="list" parameterType="Criterion" resultType="ProductVO">
-      <![CDATA[        
-    select pno,pname,category,pimg
+    <select id="list" parameterType="Criterion" resultType="ProductVO">
+          <![CDATA[        
+    select pno,pname,pimg,hashtag
     from (select /*+INDEX_DESC(tbl_product pk_product)*/ 
-          rownum as rnpno,pname,category,pimg 
-          from tbl_product3
+          rownum as rn,pno,pname,category,pimg,hashtag 
+          from tbl_product
           where category = #{category}
           and rownum <= #{pageNum} * #{amount})
     where rn > (#{pageNum}-1) * #{amount}
     ]]>  
-  </select>
+    </select>
 
-  <select id="list2" parameterType="Criterion" resultType="ProductVO">
-      <![CDATA[        
-    select pno,pname,category,pimg
+    <select id="list2" parameterType="Criterion" resultType="ProductVO">
+          <![CDATA[        
+    select pno,pname,pimg,hashtag
     from (select /*+INDEX_DESC(tbl_product pk_product)*/ 
-          rownum as rn,pno,pname,category,pimg 
-          from tbl_product3
+          rownum as rn,pno,pname,pimg,hashtag 
+          from tbl_product
           where category like 'ice%'
           and rownum <= #{pageNum} * #{amount})
     where rn > (#{pageNum}-1) * #{amount}
     ]]>  
-  </select>
-
-  <insert id="add" parameterType="ProductVO">
-    insert into tbl_product3
-    (pno,pname,engpname,category,pcontent,hashtag,material,recommend,price,pimg,regd8)
-    values
-    (seq_product_pno.nextval,#{pname},#{engpname},#{category},#{pcontent},#{hashtag},#{material},#{recommend},#{price},#{pimg},#{regd8})
-  </insert>
-  
-  <select id="total" parameterType="java.lang.String" resultType="java.lang.Integer">
-     select count(pno) from tbl_product3 where category = #{category}
-  </select>
-  <select id="total2" parameterType="java.lang.String" resultType="java.lang.Integer">
-       select count(pno) from tbl_product3 where category like 'ice%
     </select>
+
+    <insert id="add" parameterType="ProductVO">
+        insert into tbl_product
+        (pno,pname,engpname,category,pcontent,hashtag,material,recommend,price,pimg,regd8)
+        values
+        (seq_product_pno.nextval,#{pname},#{engpname},#{category},#{pcontent},#{hashtag},#{material},#{recommend},#{price},#{pimg},#{regd8})
+    </insert>
+    
+    <select id="total" parameterType="java.lang.String" resultType="java.lang.Integer">
+       select count(pno) from tbl_product where category = #{category}
+    </select>
+    <select id="total2"  resultType="java.lang.Integer">
+       select count(pno) from tbl_product where category like 'ice%'
+    </select>
+    <select id="detail1"  parameterType="java.lang.Integer" resultType="ProductVO">
+        select * from tbl_product where pno = #{pno}
+    </select>
+     <select id="rclist" parameterType="java.lang.String" resultType="ProductVO">
+        select * from tbl_product where recommend = #{recommend}
+      </select>
+      <select id="material" parameterType="java.lang.String" resultType="ProductVO">
+       select * from tbl_product where pname = #{pname}
+      </select>
     <!-- 0715 추가부분 -->
      <select id="detail" parameterType="java.lang.Integer" resultType="ProductVO">
        select pno, pimg, category, pname, price from tbl_product where pno = #{pno}

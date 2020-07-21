@@ -1,3 +1,14 @@
+function ordchk(){
+	console.log(">>>ordchk 들어오나 확인");
+	//let ono = $(this).closest("tr").find("#status").html();
+	console.log($(this));
+	//let ono = $(this).val();
+	//console.log(ono);
+
+}
+
+
+
 function printOrdlist(ordlist){
 	// 지우고
 	$("#orderList thead:first-child").nextAll().remove();
@@ -7,7 +18,7 @@ function printOrdlist(ordlist){
 	let jsondata = JSON.parse(ordlist);
 	console.log(">>>jsondata : ");
 	console.log(jsondata);
-	//분리완료
+	// 분리완료
 	
 
 	let orderPtrTag = '<tbody>';
@@ -22,16 +33,58 @@ function printOrdlist(ordlist){
 				amount:tempArr.amount, receiver_id:tempArr.receiver_id, 
 				 omemo:tempArr.memo, status:tempArr.status
 		};
-		console.log("-------------------");
-		
 		console.log(myArray);
 		for(let key in myArray){
-			orderPtrTag += '<th class="">'+myArray[key]+'</th>';
-			/*
-			 * orderPtrTag += '<th>'+ovo.ono+'</th>'; orderPtrTag += '<th>'+ovo.pname+'</th>';
-			 * orderPtrTag += '<th>'+ovo.price+'</th>'; orderPtrTag += '<th>'+ovo.amount+'</th>';
-			 * orderPtrTag += '<th>'+ovo.receiver_id+'</th>';
-			 */
+			if(key=='status'){
+				if(myArray[key]=='1'){
+					orderPtrTag += '<th class="">미확인</th>';
+				}else{
+					orderPtrTag += '<th class="">확인완료</th>';
+				}
+			}else{
+				orderPtrTag += '<th>'+myArray[key]+'</th>';	
+			}
+			}
+	}
+	orderPtrTag += '</tr></tbody>';
+	$("#orderList").append(orderPtrTag).trigger("create");
+}
+function printOrdlist1(ordlist){
+	// 지우고
+	$("#orderList thead:first-child").nextAll().remove();
+	console.log("컨트롤러에서 넘어온 값");
+	
+	console.log(ordlist);
+	let jsondata = JSON.parse(ordlist);
+	console.log(">>>jsondata : ");
+	console.log(jsondata);
+	// 분리완료
+	
+
+	let orderPtrTag = '<tbody>';
+	let orderidx = 1;
+	
+	for (let ovo in jsondata) {
+		let tempArr = jsondata[ovo];
+		console.log(tempArr);
+		orderPtrTag += '<tr><th>'+orderidx+'</th>';
+		orderidx++;
+		let myArray = { odate:tempArr.odate, ono:tempArr.ono, pname:tempArr.pname, price:tempArr.price,
+				amount:tempArr.amount, receiver_id:tempArr.receiver_id, 
+				 omemo:tempArr.memo, status:tempArr.status
+		};
+		console.log(myArray);
+		for(let key in myArray){
+			if(key=='status'){
+				if(myArray[key]=='1'){
+					orderPtrTag += '<th class="">미확인</th>';
+					orderPtrTag += '<th class=""><button value ="'+myArray.ono+'"onclick="ordchk()">확인</button></th>';
+				}else{
+					orderPtrTag += '<th class="">확인완료</th>';
+				}
+			}else{
+				orderPtrTag += '<th class="">'+myArray[key]+'</th>';	
+			}
 			}
 	}
 	orderPtrTag += '</tr></tbody>';
@@ -53,8 +106,8 @@ function preOrderGet(pno){
 function addOrder(){
 	
 	console.log("addOrder 들어오나 확인");
-	// mno세션에서 가져오기
-    let mno = 1;
+	
+    
     let pricelength = $(".preprice").length;
     let tempPname = "";
     let tempAmount = "";
@@ -68,9 +121,10 @@ function addOrder(){
 	}
     console.log("tempPname보내기 전 :" +tempPname);
     console.log("tempAmount보내기 전 :" +tempAmount);
+    console.log("보내기 직전 mno " + $("#ordermno").val());
     $("#orderpname").val(tempPname);
     $("#orderamount").val(tempAmount);
-    $("#ordermno").val(mno);
+   
     $("#orderForm").submit();
 }
 function printpreolist(listArr){
@@ -87,7 +141,7 @@ function printpreolist(listArr){
 		$("#mpoint").val(total/10);
 		ptrTag += '<tr><th id = "idx'+idx+'"class="idx"><span>'+idx+'</span></th>';
 		idx++;
-		ptrTag += '<th class=""><img src="/resources/img/img_IC/'+pvo.pimg+'"></th>';
+		ptrTag += '<th class=""><img src="/images/'+pvo.pimg+'"></th>';
 		ptrTag += '<th data-category="'+pvo.category+'" data-pno="'+pvo.pno+'" data-pname="'+pvo.pname+'" class="prepname">'+pvo.pname+'</th>';
 		ptrTag += '<th value="'+pvo.price+'"><span data-price="'+pvo.price+'" class="preprice" >'+pvo.price+'</span></th>';
 		ptrTag += '<th><span class="preamount">1</span><span><button data-price"'+pvo.price+'" type="button" class="mAnt btn btn-outline-light text-dark">-</button></span>'
@@ -206,9 +260,7 @@ $(document).on("click",".pAnt",function(){
  			$("#total").val(price);
  			$("#mpoint").val(price/10);
  		}
-		
 	}
-	
 });
 
 $(document).on("click",".mAnt",function(){

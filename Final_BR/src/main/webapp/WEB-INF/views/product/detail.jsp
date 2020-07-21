@@ -4,7 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <jsp:include page="../common/header.jsp"></jsp:include>
 <jsp:include page="../common/nav.jsp"></jsp:include>
-
+<c:set var="sesInfo" value="${mInfo }" scope="session" />
 <div id="br_menu" class="">
 	<article id="wrap" class="br_menu_view">
 		<div id="content">
@@ -28,7 +28,7 @@
 								<img src="/images/${pvo.pimg }" alt="">
 							</div>
 							<div class="buy">
-								<a href="#" target="_blank">구매하기</a>
+								<a href="/order/ocheck?pno=${pvo.pno }" target="_blank">구매하기</a>
 							</div>
 						</header>
 						<!-- ###제품정보### -->
@@ -42,7 +42,7 @@
 								<div class="rig">
 									<nav class="sns">
 										<ul>
-											<li class="favorite"><a href="#none" data-api="favorite"
+											<li class="favorite"><a href="/cart/add?pno=${pvo.pno }&mno=${sesInfo.mno}" data-api="favorite"
 												data-seq="521"> <span>좋아하는 플레이버 등록</span>
 											</a></li>
 											<li><a href="#none" role="button" data-sns="facebook">

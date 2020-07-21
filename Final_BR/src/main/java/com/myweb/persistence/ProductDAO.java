@@ -11,6 +11,9 @@ public interface ProductDAO {
 	public List<ProductVO> selectcateList(Criterion cri);
 	public List<ProductVO> selectrankList();
 	public int selectTotal(String category);
+	public ProductVO selectProduct(int pno);
+	public List<ProductVO> selectRecommend(String recommend);
+	public ProductVO selectMaterial(String pname);
 	
 	//0715 추가부분
 	public ProductVO getpdetail(int pno);

@@ -29,4 +29,64 @@ public class PagingVO {
 		
 	}
 
+
+	public int getTotalCount() {
+		return totalCount;
+	}
+
+
+	public void setTotalCount(int totalCount) {
+		this.totalCount = totalCount;
+	}
+
+
+	public int getBeginPagingNum() {
+		return beginPagingNum;
+	}
+
+
+	public void setBeginPagingNum(int beginPagingNum) {
+		this.beginPagingNum = beginPagingNum;
+	}
+
+
+	public int getEndPagingNum() {
+		return endPagingNum;
+	}
+
+
+	public void setEndPagingNum(int endPagingNum) {
+		this.endPagingNum = endPagingNum;
+	}
+
+
+	public boolean isPrev() {
+		return prev;
+	}
+
+
+	public void setPrev(boolean prev) {
+		this.prev = prev;
+	}
+
+
+	public boolean isNext() {
+		return next;
+	}
+
+
+	public void setNext(boolean next) {
+		this.next = next;
+	}
+
+
+	public Criterion getCri() {
+		return cri;
+	}
+
+
+	public void setCri(Criterion cri) {
+		this.cri = cri;
+	}
+
 }

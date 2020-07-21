@@ -22,36 +22,51 @@ public class ProductDAOImpl implements ProductDAO {
 
 	@Override
 	public int insertProduct(ProductVO pvo) {
-		return sql.insert(ns + "add", pvo);
+		return sql.insert(ns+"add", pvo);
 	}
 
 	@Override
 	public List<ProductVO> selectList() {
-		return sql.selectList(ns + "allList");
+		return sql.selectList(ns+"allList");
 	}
 
 	@Override
 	public List<ProductVO> selectcateList(Criterion cri) {
-		return null;
-		/*
-		 * String category = cri.getCategory(); if (category.equals("icecone")) { return
-		 * sql.selectList(ns + "list2"); } else { return sql.selectList(ns + "list",
-		 * category); }
-		 */
+		String category = cri.getCategory();
+		if(category.equals("icecone")) {
+			return sql.selectList(ns+"list2",cri);
+		}else {
+			return sql.selectList(ns+"list",cri);
+		}
 	}
 
 	@Override
 	public List<ProductVO> selectrankList() {
-		return sql.selectList(ns + "rank");
+		return sql.selectList(ns+"rank");
 	}
 
 	@Override
 	public int selectTotal(String category) {
-		if (category.equals("icecone")) {
-			return sql.selectOne(ns + "total");
-		} else {
-			return sql.selectOne(ns + "total2");
+		if(category.equals("icecone")) {
+			return sql.selectOne(ns+"total2");
+		}else {
+			return sql.selectOne(ns+"total",category);
 		}
+	}
+
+	@Override
+	public ProductVO selectProduct(int pno) {
+		return sql.selectOne(ns+"detail1",pno);
+	}
+
+	@Override
+	public List<ProductVO> selectRecommend(String recommend) {
+		return sql.selectList(ns+"rclist",recommend);
+	}
+
+	@Override
+	public ProductVO selectMaterial(String pname) {
+		return sql.selectOne(ns+"material",pname);
 	}
 
 //0715 추가부분

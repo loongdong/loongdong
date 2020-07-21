@@ -18,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -48,6 +49,19 @@ public class OrderCtrl {
 	ProductService psv;
 	@Inject
 	MemberService msv;
+
+	@ResponseBody
+	@PostMapping("/getmpoint")
+	public String getmpoint(@RequestParam("mno") int mno) {
+		log.info(">>> 여기오나");
+		String result = String.valueOf(msv.getmpoint(mno));
+		return result;
+	}
+
+	@GetMapping("/totalinfo")
+	public void totalinfo(Model model, @RequestParam("cate") String cate) {
+		model.addAttribute("cate", cate);
+	}
 
 	@GetMapping("/list")
 	public void olist() {
@@ -81,7 +95,7 @@ public class OrderCtrl {
 		List<OrderVO> templist = osv.getbuyList(mno);
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> map = new HashMap<String, Object>();
-	
+
 		for (int i = 0; i < templist.size(); i++) {
 
 			String[] pnameArr = templist.get(i).getPname().split(",");
@@ -99,7 +113,7 @@ public class OrderCtrl {
 				ovo.setStatus(templist.get(i).getStatus());
 				int price = psv.getPrice(pnameArr[j]);
 				ovo.setPrice(price);
-				map.put("ovo"+i, ovo);
+				map.put("ovo" + i, ovo);
 			}
 		}
 		try {
@@ -140,9 +154,9 @@ public class OrderCtrl {
 				ovo.setStatus(templist.get(i).getStatus());
 				int price = psv.getPrice(pnameArr[j]);
 				ovo.setPrice(price);
-				map.put("ovo"+i, ovo);
+				map.put("ovo" + i, ovo);
 			}
-			
+
 		}
 		try {
 			json = mapper.writeValueAsString(map);
@@ -159,7 +173,6 @@ public class OrderCtrl {
 
 	@PostMapping(value = "/ocheck")
 	public void prelist(Model model, @RequestParam("cno") String cno, @RequestParam("pno") String pno) {
-
 		log.info(">>>cno : " + cno);
 		log.info(">>>pno : " + pno);
 		/*
@@ -176,6 +189,22 @@ public class OrderCtrl {
 		 */
 	}
 
+	@GetMapping(value = "/ocheck")
+	public void ordfromdetail(Model model, @RequestParam("pno") String pno) {
+		log.info(">>>pno : " + pno);
+		/*
+		 * String[] pArr = pno.split(","); List<ProductVO> plist = new
+		 * ArrayList<ProductVO>(); for (int i = 0; i < pArr.length; i++) {
+		 * log.info(">>>" + pArr[i]); int pno1 = Integer.parseInt(pArr[i]); ProductVO
+		 * pvo = psv.getpdetail(pno1); plist.add(pvo); } model.addAttribute("plist",
+		 * plist);
+		 */
+		model.addAttribute("pno", pno);
+		/*
+		 * log.info(">>> pno : " + pno); log.info(">>> cno : " + cno);
+		 */
+	}
+
 	@GetMapping("/ofinal")
 	public void ofinal(@RequestParam("mpoint") String mpoint, @RequestParam("totalMpoint") String totalMpoint,
 			Model model) {
@@ -186,22 +215,23 @@ public class OrderCtrl {
 	@PostMapping(value = "/add", produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE })
 	public String addOrder(OrderVO ovo, @RequestParam("mno") String mno, @RequestParam("cno") String cno,
 			@RequestParam("mpoint") String mpoint, Model model) {
-
+		int mno1 = Integer.parseInt(mno);
+		int mpoint1 = Integer.parseInt(mpoint);
+		MemberVO mvo = new MemberVO(mno1, mpoint1);
 		int totalMpoint = 0;
-
+		log.info(">>> cnl : " + cno);
+		log.info(">>> mnl : " + mno);
 		if (osv.insertOrder(ovo) > 0) {
-			int mno1 = Integer.parseInt(mno);
-			int mpoint1 = Integer.parseInt(mpoint);
-			log.info(">>>>mpoint1" + mpoint1);
-			MemberVO mvo = new MemberVO(mno1, mpoint1);
-			totalMpoint = msv.addmpoint(mvo);
-
-			String[] cArr = cno.split(",");
-			log.info("cArr.length : " + cArr.length);
-			for (int i = 0; i < cArr.length; i++) {
-				log.info(">>>" + cArr[i]);
-				int cno1 = Integer.parseInt(cArr[i]);
-				csv.delCart(cno1);
+			msv.addmpoint(mvo);
+			totalMpoint = msv.getmpoint(mno1);
+			if (cno != "") {
+				String[] cArr = cno.split(",");
+				log.info("cArr.length : " + cArr.length);
+				for (int i = 0; i < cArr.length; i++) {
+					log.info(">>>" + cArr[i]);
+					int cno1 = Integer.parseInt(cArr[i]);
+					csv.delCart(cno1);
+				}
 			}
 		}
 		model.addAttribute("mpoint", mpoint);

@@ -31,35 +31,35 @@
           <ul>
             <li class="li_1"><a href="http://www.happypointcard.com"
               target="_blank"> <img
-                src="../resources/img/btn_happypoint.png" alt="HAPPY POINT">
+                src="/resources/img/btn_happypoint.png" alt="HAPPY POINT">
             </a></li>
             <li class="li_2"><a href="http://m.celectory.com"
               target="_blank"> <img
-                src="../resources/img/btn_happymarket.gif" alt="HAPPY MARKET">
+                src="/resources/img/btn_happymarket.gif" alt="HAPPY MARKET">
             </a></li>
             <li class="li_3"><a
               href="http://www.spc.co.kr/contributionAll" target="_blank">
-                <img src="../resources/img/btn_spc_story.png"
+                <img src="/resources/img/btn_spc_story.png"
                 alt="SPC그룹 사회공헌활동 SPC 행복한 이야기">
             </a></li>
             <li class="li_4"><a
               href="https://sealinfo.verisign.com/splash?form_file=fdf/splash.fdf&dn=WWW.BASKINROBBINS.CO.KR&lang=ko"
-              target="_blank"> <img src="../resources/img/btn_norton.gif"
+              target="_blank"> <img src="/resources/img/btn_norton.gif"
                 alt="Norton SECURED">
             </a></li>
             <li class="li_5"><a href="http://www.kca.go.kr/ccm/"
-              target="_blank"> <img src="../resources/img/btn_ccm.gif"
+              target="_blank"> <img src="/resources/img/btn_ccm.gif"
                 alt="소비자중심경영 인증제도">
             </a></li>
             <li><a href="http://knqa.ksa.or.kr/knqa/2276/subview.do"
-              target="_blank"> <img src="../resources/img/btn_ksa.png"
+              target="_blank"> <img src="/resources/img/btn_ksa.png"
                 alt="국가품질상 - KSA 한국표준협회">
             </a></li>
           </ul>
         </nav>
 
         <nav class="familysite">
-          <button type="button" class="on">FAMILY SITE</button>
+          <button type="button" class="" id="footer_btn">FAMILY SITE</button>
           <ul>
             <li><a href="http://www.baskinschool.co.kr/" target="_blank">배스킨
                 스쿨</a></li>
@@ -98,5 +98,24 @@
     </div>
   </div>
 </footer>
+
+<!-- Bootstrap core JavaScript -->
+<script src="/resources/js/jquery.min.js"></script>
+<script src="/resources/js/bootstrap.bundle.min.js"></script>
+-->
+<script>
+$(function() {
+      $(document).on("click", "#footer_btn", function() {
+        console.log($(this).attr('class'));
+        let btn_class = $(this).attr('class');
+         if(btn_class==""){
+            $(this).attr('class', 'on');
+         }else{
+            $(this).removeClass('on');
+         }
+      });
+});
+</script>
 </body>
+
 </html>

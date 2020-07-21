@@ -8,10 +8,19 @@ public class Criterion {
 	
 	private String type;
 	private String keyword; //검색용
+	private String find;
+	private String searchword;
+	private String category;
 	
+	public String getCategory() {
+		return category;
+	}
+	public void setCategory(String category) {
+		this.category = category;
+	}
 	
 	public Criterion() {
-		this(1,10);
+		this(1,20);  //리스트 변경 (1,15)
 	}
 	public int getAmount() {
 		return amount;
@@ -41,7 +50,18 @@ public class Criterion {
 	public void setKeyword(String keyword) {
 		this.keyword = keyword;
 	}
-
+	public String getFind() {
+		return find;
+	}
+	public void setFind(String find) {
+		this.find = find;
+	}
+	public String getSearchword() {
+		return searchword;
+	}
+	public void setSearchword(String searchword) {
+		this.searchword = searchword;
+	}
 	
 }
 

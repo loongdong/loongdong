@@ -4,6 +4,40 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="MemberMapper">
 
+	<sql id="base">
+		from tbl_member where mid = #{mid}
+	</sql>
+	<insert id="join" parameterType="MemberVO">
+		insert into
+		tbl_member(mno,cardno,mname,mid,email,pwd,phone,tel,homeadr,shipadr,job)
+		values(seq_member_mno.nextval,#{cardno},#{mname},#{mid},#{email},#{pwd},#{phone},#{tel},#{homeadr},#{shipadr},#{job})
+	</insert>
+	<select id="check" parameterType="java.lang.String"
+		resultType="java.lang.Integer">
+		select count(mid) from tbl_member where mid = #{mid}
+	</select>
+	<select id="login" parameterType="MemberVO"
+		resultType="MemberVO">
+		select * from tbl_member where mid = #{mid} and pwd = #{pwd}
+	</select>
+	<select id="mInfo" parameterType="java.lang.String"
+		resultType="MemberVO">
+		select *
+		<include refid="base" />
+	</select>
+	<update id="modify" parameterType="MemberVO">
+		update tbl_member set pwd = #{pwd}, nickname = #{nickname} where email =
+		#{email}
+	</update>
+	<delete id="resign" parameterType="java.lang.String">
+		delete
+		<include refid="base" />
+	</delete>
+	<select id="mypage" parameterType="java.lang.String">
+		select * from tbl_member where mid= #{mid}, mname = #{mname}, mpoint =
+		#{mpoint}
+	</select>
+
 	<update id="addmpoint" parameterType="MemberVO">
 		update tbl_member set
 		mpoint = mpoint+#{mpoint} where mno=#{mno}
