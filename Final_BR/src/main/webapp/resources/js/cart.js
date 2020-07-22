@@ -1,3 +1,62 @@
+function transferToRvModal(mid, mimg, rimg, r_title, r_content, r_regd8){
+	console.log(">>> checkpoint3");
+	let rvimgTag = "";
+	let mimgTag = "";
+	let midTag = "";
+	let r_titleTag = "";
+	let r_contentTag = "";
+	let r_regd8Tag = "";
+	
+	
+	rvimgTag += '<img src="/images/review/'+rimg+'">';
+	midTag += '';
+	mimgTag +='';
+	midTag = '<img src="/images/review/'+mimg+'">';
+	r_titleTag = '';
+	r_contentTag = '';
+	r_regd8Tag = '';
+	
+	
+	
+	$(document).find(".rvLeft").html(rvimgTag);
+	$(document).find("#rv_mid").html(midTag);
+	$(document).find("#rv_mimg").html(mimgTag);
+	
+	
+	
+	
+/*
+ * let modInput = '<input class="form-control" data-cno="'+cno+'" type="text"
+ * value="'+content+'" id="modInput">';
+ * $(document).find(".modal-body").html(modInput);
+ */
+}
+
+
+
+// 모달예시
+/*
+ * function transferToModal(pno, engpname, pname, pcontent, pimg) { let content = '<div
+ * class="photo"> <img src="/images/'+pimg+'"></div><h2 class="name"> <small>' +
+ * engpname + '</small>' + pname + '</h2><p class="content">' + pcontent + '</p><p class="linkview">
+ * <a href="/product/detail?pno=' + pno + '"><img src="/images/btn_goview.gif"></a></p>';
+ * $(document).find(".modal_content .prd").html(content); }
+ */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function listCart(param_mno,page){
 	let pageNo = page> 1 ? page : 1;
@@ -32,7 +91,7 @@ function printListCart(listArr,cartTotal,page){
 
 
 
-//구매하기 버튼 눌렀을때 하나만 주문하기
+// 구매하기 버튼 눌렀을때 하나만 주문하기
 $(document).on("click", "#ordOneBtn", function(e) {
 	e.preventDefault(e);
 	console.log("하ㅓ나 주문하는 곳 들어오는가 확인");

@@ -42,8 +42,10 @@
 								<div class="rig">
 									<nav class="sns">
 										<ul>
-											<li class="favorite"><a href="/cart/add?pno=${pvo.pno }&mno=${sesInfo.mno}" data-api="favorite"
-												data-seq="521"> <span>좋아하는 플레이버 등록</span>
+											<li class="favorite"><a
+												href="/cart/add?pno=${pvo.pno }&mno=${sesInfo.mno}"
+												data-api="favorite" data-seq="521"> <span>좋아하는
+														플레이버 등록</span>
 											</a></li>
 											<li><a href="#none" role="button" data-sns="facebook">
 													<img src="/images/icon_facebook.png" alt="FACEBOOK">
@@ -53,6 +55,10 @@
 											</a></li>
 											<li><a href="#none" role="button" data-sns="copyurl">
 													<img src="/images/icon_copy.png" alt="copy">
+											</a></li>
+											<!-- 리뷰등록버튼추가 -->
+											<li><a href="/review/add?pno=${pvo.pno }"> <img
+													src="/images/icon_copy.png">리뷰등록
 											</a></li>
 										</ul>
 									</nav>
@@ -270,11 +276,40 @@
 						</c:if>
 					</c:if>
 
+					<!-- 여기에 리뷰 추가 -->
 					<article class="view_detail_insta">
 						<div class="insta_header">
 							<h2>인스타그램에서 만나는</h2>
 							<p>#민트초콜릿칩 #배스킨라빈스</p>
 						</div>
+
+						<article class="view_flavor consist">
+							<div class="list_product">
+								<ul class="list">
+									<c:if test="${rvList.size() > 1}">
+										<h2>리뷰~~~</h2>
+									</c:if>
+									<c:forEach items="${rvList }" var="rvo">
+										<li><input type="hidden" name="mimg" value="${rvo.mimg }">
+											<input type="hidden" name="mid" value="${rvo.mid }">
+											<input type="hidden" name="rimg" value="${rvo.rimg}">
+											<input type="hidden" name="r_title" value="${rvo.title }">
+											<input type="hidden" name="r_content" value="${rvo.content }">
+											<input type="hidden" name="r_date" value="${rvo.regd8}">
+											<!-- <button data-toggle="modal" data-target="#rvModal" class="btn btn-outline-warning modBtn" >수정</button> -->
+											<a data-api="modal" href="#rvmodal_consist"
+											data-toggle="modal" data-target="#rvModal"
+											class="rvmodal_detail"> <!--  <a href="#modal_consist" data-api="modal" data-seq="134"> -->
+												<img src="/images/review/${rvo.rimg}" alt=""
+												style="position: absolute; top: 0; left: 55px; width: 100%; height: 100%">
+										</a></li>
+									</c:forEach>
+								</ul>
+							</div>
+							<div class="dslide">
+								<!-- paging -->
+							</div>
+						</article>
 					</article>
 				</div>
 
@@ -353,7 +388,7 @@
 				</div>
 			</div>
 		</div>
-	<!-- 	<div class="container">
+		<!-- 	<div class="container">
 			<button id="addCart">카트추가 테스트</button>
 
 		</div>
@@ -402,14 +437,43 @@
 			</div>
 		</div>
 	</div>
+
+	<!-- The Modal -->
+	<div class="modal" id="rvModal">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+
+				<!-- Modal Header -->
+				<div class="modal-header">
+					<h4 class="modal-title">리뷰상세보기</h4>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+				<!-- Modal body -->
+				<div class="modal-body">
+					<div class="rvLeft"></div>
+					<div class="rvRight">
+						<div id="rv_mimg"></div>
+						<div id="rv_mid"></div>
+					</div>
+				</div>
+				<!-- Modal footer -->
+				<div class="modal-footer">
+					<button type="button" id="modOkBtn" data-dismiss="modal"
+						class="btn btn-primary">확인</button>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
-
-
+<!-- order.css 추가 -->
+<link href="/resources/css/review.css" rel="stylesheet">
 <script src="/resources/js/cart.js"></script>
 <script>
 	$(function() {
 		$(document).on("click", ".modal_detail", function() {
 			$("#br_menu").attr('class', 'open_modal');
+			//리뷰모달클래스 삭제
+			$("#rvModal").removeClass('modal');
 			let parentsLi = $(this).closest("li");
 			$(".modal").addClass('in');
 			$(".modal").addClass('on');
@@ -420,6 +484,18 @@
 			let pimg = $(parentsLi).find("input[name=pimg]").val();
 			transferToModal(pno, engpname, pname, pcontent, pimg);
 		});
+
+		//리뷰디테일모달보기  
+		$(document).on("click", ".rvmodal_detail", function() {
+			let parentsLi = $(this).closest("li");
+			let mid = $(parentsLi).find("input[name=mid]").val();
+			let mimg = $(parentsLi).find("input[name=mimg]").val();
+			let rimg = $(parentsLi).find("input[name=rimg]").val();
+			let r_title = $(parentsLi).find("input[name=r_title]").val();
+			let r_content = $(parentsLi).find("input[name=r_content]").val();
+			let r_regd8 = $(parentsLi).find("input[name=r_date]").val();
+			transferToRvModal(mid, mimg, rimg, r_title, r_content, r_regd8);
+		})
 
 		function transferToModal(pno, engpname, pname, pcontent, pimg) {
 			let content = '<div class="photo"> <img src="/images/'+pimg+'"></div><h2 class="name"> <small>'
@@ -435,6 +511,7 @@
 		$(document).on("click", ".modal_close", function() {
 			$(".modal").removeClass('in on');
 			$("#br_menu").attr('class', '');
+			$("#rvModal").attr('class', 'modal');
 		});
 	});
 </script>
