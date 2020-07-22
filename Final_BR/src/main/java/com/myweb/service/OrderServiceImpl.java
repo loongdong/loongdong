@@ -39,4 +39,9 @@ public class OrderServiceImpl implements OrderService{
 	public int modifyOrder(OrderVO ovo) {
 		return 0;
 	}
+
+	@Override
+	public int ordchk(int ono) {
+		return odao.ordchk(ono);
+	}
 }

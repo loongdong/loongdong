@@ -9,4 +9,5 @@ public interface OrderDAO {
 	public int deleteOrder(int ono);
 	public List<OrderVO> getPresentList(String receiver_id);
 	public List<OrderVO> getbuyList(int mno);
+	public int ordchk(int ono);
 }

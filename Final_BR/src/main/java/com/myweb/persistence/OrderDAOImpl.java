@@ -39,4 +39,9 @@ public class OrderDAOImpl implements OrderDAO {
 	public List<OrderVO> getbuyList(int mno) {
 		return sql.selectList(ns + "buylist", mno);
 	}
+
+	@Override
+	public int ordchk(int ono) {
+		return sql.update(ns+"ordchk", ono);
+	}
 }

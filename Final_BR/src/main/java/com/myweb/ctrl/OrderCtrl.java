@@ -57,6 +57,14 @@ public class OrderCtrl {
 		String result = String.valueOf(msv.getmpoint(mno));
 		return result;
 	}
+	
+	@ResponseBody
+	@PostMapping("/modify")
+	public int ordchk(@RequestParam("ono") int ono) {
+		log.info(">>> 여기오나");
+		int isOk = osv.ordchk(ono);
+		return isOk;
+	}
 
 	@GetMapping("/totalinfo")
 	public void totalinfo(Model model, @RequestParam("cate") String cate) {

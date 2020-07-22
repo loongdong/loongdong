@@ -11,6 +11,7 @@ public interface OrderService {
 	public List<OrderVO> getbuyList(int mno);
 	public List<OrderVO> getpresentList(String receiver_id);
 	public int modifyOrder(OrderVO ovo);
+	public int ordchk(int ono);
 	
 
 }

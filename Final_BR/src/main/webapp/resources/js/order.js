@@ -1,12 +1,16 @@
-function ordchk(){
-	console.log(">>>ordchk 들어오나 확인");
-	//let ono = $(this).closest("tr").find("#status").html();
-	console.log($(this));
-	//let ono = $(this).val();
-	//console.log(ono);
-
-}
-
+$(document).on("click","#onochk",function() {
+	let ono = $(this).data("ono");
+	console.log(">>>ono : "+ono);
+	$.ajax({
+		type: "post",
+		url: "/order/modify",
+		data:{ono:ono}, 
+		success : function(result) {
+			alert("수신확인완료");
+			location.reload();
+		}
+	})
+});
 
 
 function printOrdlist(ordlist){
@@ -78,7 +82,7 @@ function printOrdlist1(ordlist){
 			if(key=='status'){
 				if(myArray[key]=='1'){
 					orderPtrTag += '<th class="">미확인</th>';
-					orderPtrTag += '<th class=""><button value ="'+myArray.ono+'"onclick="ordchk()">확인</button></th>';
+					orderPtrTag += '<th class=""><button id="onochk" data-ono="'+myArray["ono"]+'" value ="'+myArray["ono"]+'">확인</button></th>';
 				}else{
 					orderPtrTag += '<th class="">확인완료</th>';
 				}
