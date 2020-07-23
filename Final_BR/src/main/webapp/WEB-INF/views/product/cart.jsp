@@ -6,12 +6,7 @@
 <link href="/resources/css/cart.css" rel="stylesheet">
 
 <div class="container">
-	<h1>장바구니</h1>
-	<p>
-		<span id="count">0개</span> 상품
-	</p>
-	<hr>
-	<hr>
+	<h1 class="title">장바구니</h1>
 	<form name=cartForm action="">
 		<table class="table table-hover" id="cartList">
 			<thead>
@@ -27,8 +22,8 @@
 		</table>
 	</form>
 
-	<input type="button" onclick="delCart()" value="카트에서삭제"> <input
-		type="button" onclick="ordFromCart()" value="선택상품주문">
+	<input type="button" class="btn btn-light"onclick="delCart()" value="카트에서삭제"> <input
+		type="button" id="ordBtn" class="btn btn-primary" onclick="ordFromCart()" value="선택상품주문">
 	<div id="cartPaging"></div>
 	<form id="goOrder" action="/order/ocheck" method="post">
 		<input type="hidden" id="prePno" name="pno" class="" value="">
@@ -36,7 +31,7 @@
 	</form>
 </div>
 
-
+<link href="/resources/css/cart.css" rel="stylesheet">
 <script src="/resources/js/cart.js"></script>
 <script src="/resources/js/order.js"></script>
 <script>

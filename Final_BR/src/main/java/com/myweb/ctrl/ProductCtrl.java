@@ -81,8 +81,9 @@ public class ProductCtrl {
 		// 0722 오후 추가부분 리뷰리스트 가지고옴
 		if (rsv.getRvList(pno) == null) {
 			model.addAttribute("rvList", "리뷰가 없습니다");
-		}else {
+		} else {
 			model.addAttribute("rvList", rsv.getRvList(pno));
+
 		}
 
 	}

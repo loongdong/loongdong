@@ -289,18 +289,25 @@
 									<c:if test="${rvList.size() > 1}">
 										<h2>리뷰~~~</h2>
 									</c:if>
-									<c:forEach items="${rvList }" var="rvo">
-										<li><input type="hidden" name="mimg" value="${rvo.mimg }">
-											<input type="hidden" name="mid" value="${rvo.mid }">
-											<input type="hidden" name="rimg" value="${rvo.rimg}">
-											<input type="hidden" name="r_title" value="${rvo.title }">
-											<input type="hidden" name="r_content" value="${rvo.content }">
+									<c:forEach items="${rvList }" var="rvo" varStatus="status">
+
+										<li><input type="hidden" name="count"
+											value="${status.count}"> <input type="hidden"
+											name="r_size" value="${rvList.size() }"> <input
+											type="hidden" name="rno" value="${rvo.rno }"> <input
+											type="hidden" name="mimg" value="${rvo.mimg }"> <input
+											type="hidden" name="mid" value="${rvo.mid }"> <input
+											type="hidden" name="rimg" value="${rvo.rimg}"> <input
+											type="hidden" name="r_title" value="${rvo.title }"> <input
+											type="hidden" name="r_content" value="${rvo.content }">
+											<input type="hidden" name="r_like" value="${rvo.likes }">
 											<input type="hidden" name="r_date" value="${rvo.regd8}">
 											<!-- <button data-toggle="modal" data-target="#rvModal" class="btn btn-outline-warning modBtn" >수정</button> -->
 											<a data-api="modal" href="#rvmodal_consist"
 											data-toggle="modal" data-target="#rvModal"
 											class="rvmodal_detail"> <!--  <a href="#modal_consist" data-api="modal" data-seq="134"> -->
-												<img src="/images/review/${rvo.rimg}" alt=""
+												<img id="rv_${status.count}"
+												src="/images/review/${rvo.rimg}" alt=""
 												style="position: absolute; top: 0; left: 55px; width: 100%; height: 100%">
 										</a></li>
 									</c:forEach>
@@ -438,30 +445,41 @@
 		</div>
 	</div>
 
-	<!-- The Modal -->
+	<!-- The 리뷰 Modal -->
 	<div class="modal" id="rvModal">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 
-				<!-- Modal Header -->
-				<div class="modal-header">
-					<h4 class="modal-title">리뷰상세보기</h4>
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-				</div>
+
 				<!-- Modal body -->
 				<div class="modal-body">
-					<div class="rvLeft"></div>
-					<div class="rvRight">
-						<div id="rv_mimg"></div>
-						<div id="rv_mid"></div>
+					<div class="rv_total">
+						<div class="rvLeft"></div>
+						<div id="rv_member"></div>
+						<div class="rv_clear"></div>
+						<div id="rv_content"></div>
+						<div class="rv_clear"></div>
+						<div id="rv_footer">
+							<div id="rv_hidden"></div>
+							<ul class="nav nav-pills nav-justified">
+								<li class="nav-item"><img class="rv_prev"
+									src="/images/icon_facebook.png" alt="FACEBOOK"></li>
+								<li class="nav-item"><img src="/images/icon_facebook.png"
+									class="addlike"></li>
+								<li class="nav-item"><span id=rlike></span></li>
+								<li class="nav-item"><img class="rv_next"
+									src="/images/icon_facebook.png" alt="FACEBOOK"></li>
+							</ul>
+						</div>
 					</div>
 				</div>
-				<!-- Modal footer -->
-				<div class="modal-footer">
+			</div>
+			<!-- 	<!-- Modal footer -->
+			<!-- 	<div class="modal-footer">
 					<button type="button" id="modOkBtn" data-dismiss="modal"
 						class="btn btn-primary">확인</button>
-				</div>
-			</div>
+				</div> -->
+
 		</div>
 	</div>
 </div>
@@ -472,7 +490,7 @@
 	$(function() {
 		$(document).on("click", ".modal_detail", function() {
 			$("#br_menu").attr('class', 'open_modal');
-			//리뷰모달클래스 삭제
+			//리뷰모달 클래스 삭제구문추가
 			$("#rvModal").removeClass('modal');
 			let parentsLi = $(this).closest("li");
 			$(".modal").addClass('in');
@@ -486,16 +504,36 @@
 		});
 
 		//리뷰디테일모달보기  
-		$(document).on("click", ".rvmodal_detail", function() {
-			let parentsLi = $(this).closest("li");
-			let mid = $(parentsLi).find("input[name=mid]").val();
-			let mimg = $(parentsLi).find("input[name=mimg]").val();
-			let rimg = $(parentsLi).find("input[name=rimg]").val();
-			let r_title = $(parentsLi).find("input[name=r_title]").val();
-			let r_content = $(parentsLi).find("input[name=r_content]").val();
-			let r_regd8 = $(parentsLi).find("input[name=r_date]").val();
-			transferToRvModal(mid, mimg, rimg, r_title, r_content, r_regd8);
-		})
+		$(document)
+				.on(
+						"click",
+						".rvmodal_detail",
+						function() {
+							let parentsLi = $(this).closest("li");
+							let mid = $(parentsLi).find("input[name=mid]")
+									.val();
+							let mimg = $(parentsLi).find("input[name=mimg]")
+									.val();
+							let rimg = $(parentsLi).find("input[name=rimg]")
+									.val();
+							let r_title = $(parentsLi).find(
+									"input[name=r_title]").val();
+							let r_content = $(parentsLi).find(
+									"input[name=r_content]").val();
+							let r_regd8 = $(parentsLi).find(
+									"input[name=r_date]").val();
+							let r_count = $(parentsLi)
+									.find("input[name=count]").val();
+							let r_size = $(parentsLi)
+									.find("input[name=r_size]").val();
+							let rno = $(parentsLi).find("input[name=rno]")
+									.val();
+							let r_like = $(parentsLi)
+									.find("input[name=r_like]").val();
+							transferToRvModal(mid, mimg, rimg, r_title,
+									r_content, r_regd8, r_count, r_size, rno,
+									r_like);
+						})
 
 		function transferToModal(pno, engpname, pname, pcontent, pimg) {
 			let content = '<div class="photo"> <img src="/images/'+pimg+'"></div><h2 class="name"> <small>'

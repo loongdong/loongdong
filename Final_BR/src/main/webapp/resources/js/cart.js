@@ -1,50 +1,86 @@
-function transferToRvModal(mid, mimg, rimg, r_title, r_content, r_regd8){
-	console.log(">>> checkpoint3");
+
+//모달파트
+function transferToRvModal(mid, mimg, rimg, r_title, r_content, r_regd8,r_count,r_size,rno,r_like){
 	let rvimgTag = "";
-	let mimgTag = "";
-	let midTag = "";
+	let memberTag = "";
+	let memberTag2 = "";
 	let r_titleTag = "";
-	let r_contentTag = "";
-	let r_regd8Tag = "";
+	let r_hiddenTag = "";
+	console.log(">>> memberTag1 : " + memberTag);
+	console.log("rtitle : "+ r_title);
 	
 	
 	rvimgTag += '<img src="/images/review/'+rimg+'">';
-	midTag += '';
-	mimgTag +='';
-	midTag = '<img src="/images/review/'+mimg+'">';
-	r_titleTag = '';
-	r_contentTag = '';
-	r_regd8Tag = '';
-	
-	
+	memberTag += '<img src="/images/review/'+mimg+'">';
+	memberTag += '<span id="mid">'+mid+'</span>';
+	// memberTag2 += '<span id="rdate">'+r_regd8+'</span>';
+	r_titleTag += '<span>'+r_title+'</span><br><br>';
+	r_titleTag += '<p>'+r_content+'</p>';
+	r_hiddenTag += '<input type="hidden" name="rvSize" value="'+r_size+'">';
+	r_hiddenTag += '<input type="hidden" name="rvCount" value="'+r_count+'">';
+	r_hiddenTag += '<input type="hidden" name="rno" value="'+rno+'">';
+	console.log(">>> hiddenTag : " + r_hiddenTag);
 	
 	$(document).find(".rvLeft").html(rvimgTag);
-	$(document).find("#rv_mid").html(midTag);
-	$(document).find("#rv_mimg").html(mimgTag);
-	
-	
-	
-	
-/*
- * let modInput = '<input class="form-control" data-cno="'+cno+'" type="text"
- * value="'+content+'" id="modInput">';
- * $(document).find(".modal-body").html(modInput);
- */
+	$(document).find("#rv_member").html(memberTag);
+	$(document).find("#rv_content").html(r_titleTag);
+	$(document).find("#rv_hidden").html(r_hiddenTag);
+	$(document).find("#rlike").text(r_like);
 }
 
 
 
-// 모달예시
-/*
- * function transferToModal(pno, engpname, pname, pcontent, pimg) { let content = '<div
- * class="photo"> <img src="/images/'+pimg+'"></div><h2 class="name"> <small>' +
- * engpname + '</small>' + pname + '</h2><p class="content">' + pcontent + '</p><p class="linkview">
- * <a href="/product/detail?pno=' + pno + '"><img src="/images/btn_goview.gif"></a></p>';
- * $(document).find(".modal_content .prd").html(content); }
- */
 
+// 다음 / 이전버튼 클릭기능
+$(document).on("click", ".rv_prev", function() {
+	console.log(">>--들어오나확인");
+	let count = $("#rv_hidden").find("input[name=rvCount]").val();
+	let total = $("#rv_hidden").find("input[name=rvSize]").val();
+	
+	if(count>1){
+		$('#rvModal').modal('hide');
+		count--;
+		$("#rv_"+count+"").trigger("click");
+	}
+});
+$(document).on("click", ".rv_next", function() {
+	let parentsDiv = $(this).closest("div");
+	let count = $(parentsDiv).find("input[name=rvCount]").val();
+	let total = $(parentsDiv).find("input[name=rvSize]").val();
+	if(total>count){
+		$('#rvModal').modal('hide');
+		count++;
+		$("#rv_"+count+"").trigger("click");
+	}
+});
 
+// 모달 좋아요 클릭 기능
 
+$(document).on("click", ".addlike", function() {
+	console.log("들어오나확인");
+	let parentsDiv = $(this).closest("div");
+	let rno = $(parentsDiv).find("input[name=rno]").val();
+	console.log("rno : " + rno);
+	let likes = $(document).find("#rlike").text();
+	console.log("likes : " + likes);
+	addlike(rno,likes);
+	
+});
+
+function addlike(rno,likes){
+	let n_likes = 0;
+	n_likes = 1*likes;
+	
+	$.ajax({
+		type: "post",
+		url: "/review/addlike",
+		data:{rno:rno},
+		success : function(result) {
+			n_likes++;
+			$(document).find("#rlike").text(n_likes);
+		}
+	})
+}
 
 
 
@@ -86,7 +122,7 @@ function printListCart(listArr,cartTotal,page){
 	
 	ulTag += '</tbody>';
 	$("#cartList").append(ulTag).trigger("create");
-	printCartPaging(cartTotal,page);
+	//printCartPaging(cartTotal,page);
 }
 
 
@@ -142,7 +178,8 @@ function ordFromCart(){
 	 */
 }
 
-function printCartPaging(cartTotal,page){
+//카트페이징기능삭제
+/*function printCartPaging(cartTotal,page){
 	let cartPagingObj = '<ul class="pagination">';
 	let endPagingNum = Math.ceil(page/10.0)*10;
 	let beginPagingNum = endPagingNum - 9;
@@ -170,7 +207,7 @@ function printCartPaging(cartTotal,page){
 	}
 	cartPagingObj += '</ul>';
 	$("#cartPaging").html(cartPagingObj);
-}
+}*/
 
 function chkAll(){
 	console.log("클릭되는지확인");
@@ -241,3 +278,32 @@ function chkDuple(mno, pno){
 	});
 }
 
+
+
+/*
+ * function displayTime(modd8){ console.log("modd8 변환전 : " + modd8); let today =
+ * new Date(); let changeModd8 = new Date(modd8); console.log("today : "+
+ * today); console.log("changeModd8 : "+ changeModd8);
+ * 
+ * 
+ * let todayYear = today.getFullYear(); console.log("today : "+todayYear); let
+ * todayMonth = today.getMonth()+1; // 0~11 console.log("today : "+ todayMonth);
+ * let todayDate = today.getDate(); console.log("todayDate : "+ todayDate); let
+ * modYear = changeModd8.getFullYear(); console.log("modYear : "+ modYear); let
+ * modMonth = changeModd8.getMonth()+1; console.log("modMonth : "+ modMonth);
+ * let modDate = changeModd8.getDate(); console.log("modDate : "+ modDate);
+ * 
+ * let modHour = changeModd8.getHours(); let modMin = changeModd8.getMinutes();
+ * let modSec = changeModd8.getSeconds();
+ * 
+ * let hour = (modHour > 9 ? "" :"0") + modHour; let min = (modMin > 9 ? "" :
+ * "0") + modMin; let sec = (modSec > 9 ? "" : "0") + modSec; let month =
+ * (modMonth > 9 ? "" : "0") + modMonth; let day = (modDate > 9 ? "" : "0") +
+ * modDate; console.log(hour+":"+min+":"+sec);
+ * 
+ * let diff = todayYear == modYear && todayMonth == modMonth && todayDate ==
+ * modDate; let dateStr = modYear+"-"+month+"-"+day; let timeStr =
+ * hour+":"+min+":"+sec; console.log(dateStr + " / " + timeStr); return diff ?
+ * timeStr : dateStr + " " + timeStr; }
+ * 
+ */
