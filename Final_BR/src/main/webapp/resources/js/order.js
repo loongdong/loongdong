@@ -142,7 +142,9 @@ function printpreolist(listArr){
 		total = total + pvo.price;
 		console.log("total : "+ total);
 		$("#total").val(total);
+		$("#totalPrice").text("총 금액 : "+ total+"원");
 		$("#mpoint").val(total/10);
+		$("#totalMpoint").text("적립예정 포인트 : "+ (total/10)+"원");
 		ptrTag += '<tr><th id = "idx'+idx+'"class="idx"><span>'+idx+'</span></th>';
 		idx++;
 		ptrTag += '<th class=""><img src="/images/'+pvo.pimg+'"></th>';

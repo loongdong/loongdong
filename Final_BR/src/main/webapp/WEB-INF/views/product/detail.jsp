@@ -5,6 +5,8 @@
 <jsp:include page="../common/header.jsp"></jsp:include>
 <jsp:include page="../common/nav.jsp"></jsp:include>
 <c:set var="sesInfo" value="${mInfo }" scope="session" />
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <div id="br_menu" class="">
 	<article id="wrap" class="br_menu_view">
 		<div id="content">
@@ -462,13 +464,15 @@
 						<div id="rv_footer">
 							<div id="rv_hidden"></div>
 							<ul class="nav nav-pills nav-justified">
-								<li class="nav-item"><img class="rv_prev"
-									src="/images/icon_facebook.png" alt="FACEBOOK"></li>
-								<li class="nav-item"><img src="/images/icon_facebook.png"
-									class="addlike"></li>
-								<li class="nav-item"><span id=rlike></span></li>
-								<li class="nav-item"><img class="rv_next"
-									src="/images/icon_facebook.png" alt="FACEBOOK"></li>
+								<li class="nav-item rv_prev"><div class="rv_control">
+										<i style="font-size: 24px" class="fa rv_prev">&#xf104;</i>
+									</div></li>
+								<li class="nav-item" id="ilkenum"><i id="r_heart" class="fa fa-heart addlike" style="font-size:24px;"></i><span id=rlike></span></li>
+								
+								
+								<li class="nav-item rv_next"><div class="rv_control">
+										<i style="font-size: 24px" class="fa rv_next">&#xf105;</i>
+									</div></li>
 							</ul>
 						</div>
 					</div>

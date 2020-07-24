@@ -9,17 +9,19 @@ function transferToRvModal(mid, mimg, rimg, r_title, r_content, r_regd8,r_count,
 	console.log(">>> memberTag1 : " + memberTag);
 	console.log("rtitle : "+ r_title);
 	
-	
 	rvimgTag += '<img src="/images/review/'+rimg+'">';
 	memberTag += '<img src="/images/review/'+mimg+'">';
-	memberTag += '<span id="mid">'+mid+'</span>';
+	memberTag += '<span id="mid">'+mid+'</span>&nbsp;';
+	memberTag += '<div style="float : right"><i class="fa fa-heart" style="font-size:24px;color:red"></i><span id="rlike"> '+r_like+'</span>개<div>';
+	
+	
 	// memberTag2 += '<span id="rdate">'+r_regd8+'</span>';
 	r_titleTag += '<span>'+r_title+'</span><br><br>';
 	r_titleTag += '<p>'+r_content+'</p>';
 	r_hiddenTag += '<input type="hidden" name="rvSize" value="'+r_size+'">';
 	r_hiddenTag += '<input type="hidden" name="rvCount" value="'+r_count+'">';
 	r_hiddenTag += '<input type="hidden" name="rno" value="'+rno+'">';
-	console.log(">>> hiddenTag : " + r_hiddenTag);
+	console.log(">>> memberTag : " + memberTag);
 	
 	$(document).find(".rvLeft").html(rvimgTag);
 	$(document).find("#rv_member").html(memberTag);
@@ -55,14 +57,17 @@ $(document).on("click", ".rv_next", function() {
 });
 
 // 모달 좋아요 클릭 기능
-
+// 속성주기color:red
 $(document).on("click", ".addlike", function() {
+	
 	console.log("들어오나확인");
+	let heart =$(document).find("#r_heart");
+	console.log(heart);
+	heart.removeClass('addlike');
+	heart.addClass('bg_red');
 	let parentsDiv = $(this).closest("div");
 	let rno = $(parentsDiv).find("input[name=rno]").val();
-	console.log("rno : " + rno);
 	let likes = $(document).find("#rlike").text();
-	console.log("likes : " + likes);
 	addlike(rno,likes);
 	
 });
@@ -122,7 +127,7 @@ function printListCart(listArr,cartTotal,page){
 	
 	ulTag += '</tbody>';
 	$("#cartList").append(ulTag).trigger("create");
-	//printCartPaging(cartTotal,page);
+	// printCartPaging(cartTotal,page);
 }
 
 
@@ -178,36 +183,24 @@ function ordFromCart(){
 	 */
 }
 
-//카트페이징기능삭제
-/*function printCartPaging(cartTotal,page){
-	let cartPagingObj = '<ul class="pagination">';
-	let endPagingNum = Math.ceil(page/10.0)*10;
-	let beginPagingNum = endPagingNum - 9;
-	let prev = beginPagingNum != 1;
-	let next = false;
-	
-	if(endPagingNum*10 >= cartTotal){
-		endPagingNum = Math.ceil(cartTotal/10.0);		
-	}else{
-		next = true;
-	}
-	
-	if(prev){
-		cartPagingObj += '<li class="page-item">';
-		cartPagingObj += '<a class="page-link" href="'+(beginPagingNum-1)+'">Prev</a></li>';
-	}
-	for (var i = beginPagingNum; i <= endPagingNum ; i++) {
-		let classActive = page == i ? ' active' : '';
-		cartPagingObj += '<li class="page-item'+classActive+'">';
-		cartPagingObj += '<a class="page-link" href="'+i+'">'+i+'</a></li>';
-	}
-	if(next){
-		cmtPagingObj += '<li class="page-item">';
-		cmtPagingObj += '<a class="page-link" href="'+(endPagingNum+1)+'">Next</a></li>';
-	}
-	cartPagingObj += '</ul>';
-	$("#cartPaging").html(cartPagingObj);
-}*/
+// 카트페이징기능삭제
+/*
+ * function printCartPaging(cartTotal,page){ let cartPagingObj = '<ul class="pagination">';
+ * let endPagingNum = Math.ceil(page/10.0)*10; let beginPagingNum = endPagingNum -
+ * 9; let prev = beginPagingNum != 1; let next = false;
+ * 
+ * if(endPagingNum*10 >= cartTotal){ endPagingNum = Math.ceil(cartTotal/10.0);
+ * }else{ next = true; }
+ * 
+ * if(prev){ cartPagingObj += '<li class="page-item">'; cartPagingObj += '<a
+ * class="page-link" href="'+(beginPagingNum-1)+'">Prev</a></li>'; } for (var
+ * i = beginPagingNum; i <= endPagingNum ; i++) { let classActive = page == i ? '
+ * active' : ''; cartPagingObj += '<li class="page-item'+classActive+'">';
+ * cartPagingObj += '<a class="page-link" href="'+i+'">'+i+'</a></li>'; }
+ * if(next){ cmtPagingObj += '<li class="page-item">'; cmtPagingObj += '<a
+ * class="page-link" href="'+(endPagingNum+1)+'">Next</a></li>'; }
+ * cartPagingObj += '</ul>'; $("#cartPaging").html(cartPagingObj); }
+ */
 
 function chkAll(){
 	console.log("클릭되는지확인");

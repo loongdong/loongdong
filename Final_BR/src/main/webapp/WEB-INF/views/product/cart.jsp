@@ -5,7 +5,7 @@
 
 <link href="/resources/css/cart.css" rel="stylesheet">
 
-<div class="container">
+<div id="cartTotal" class="container">
 	<h1 class="title">장바구니</h1>
 	<form name=cartForm action="">
 		<table class="table table-hover" id="cartList">
