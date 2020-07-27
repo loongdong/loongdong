@@ -58,7 +58,7 @@
             <c:if test="${sesInfo eq null }">  
               <ul>
                <li class="login">
-                  <a href="/member/login">
+                  <a href="/member/login/?next=1">
                   <span><img src="../resources/img/login.png" alt="LOGIN"></span></a>
                </li>
                <li class="join">

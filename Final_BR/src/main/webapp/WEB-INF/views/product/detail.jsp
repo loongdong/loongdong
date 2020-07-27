@@ -44,11 +44,20 @@
 								<div class="rig">
 									<nav class="sns">
 										<ul>
-											<li class="favorite"><a
-												href="/cart/add?pno=${pvo.pno }&mno=${sesInfo.mno}"
-												data-api="favorite" data-seq="521"> <span>좋아하는
-														플레이버 등록</span>
-											</a></li>
+											<c:if test="${sesInfo eq null }">
+												<li class="favorite"><a
+													href="/member/login?next=cart&pno=${pvo.pno }"
+													data-api="favorite" data-seq="521"> <span>좋아하는
+															플레이버 등록</span>
+												</a></li>
+											</c:if>
+											<c:if test="${sesInfo ne null }">
+												<li class="favorite"><a
+													href="/cart/add?pno=${pvo.pno }&mno=${sesInfo.mno}"
+													data-api="favorite" data-seq="521"> <span>좋아하는
+															플레이버 등록</span>
+												</a></li>
+											</c:if>
 											<li><a href="#none" role="button" data-sns="facebook">
 													<img src="/images/icon_facebook.png" alt="FACEBOOK">
 											</a></li>
@@ -59,9 +68,13 @@
 													<img src="/images/icon_copy.png" alt="copy">
 											</a></li>
 											<!-- 리뷰등록버튼추가 -->
-											<li><a href="/review/add?pno=${pvo.pno }"> <img
-													src="/images/icon_copy.png">리뷰등록
-											</a></li>
+											<c:if test="${sesInfo eq null }">
+												<li><a href="/member/login?next=review&pno=${pvo.pno }">리뷰등록
+												</a></li>
+											</c:if>
+											<c:if test="${sesInfo ne null }">
+												<li><a href="/review/add?pno=${pvo.pno }">리뷰등록 </a></li>
+											</c:if>
 										</ul>
 									</nav>
 								</div>
@@ -467,9 +480,11 @@
 								<li class="nav-item rv_prev"><div class="rv_control">
 										<i style="font-size: 24px" class="fa rv_prev">&#xf104;</i>
 									</div></li>
-								<li class="nav-item" id="ilkenum"><i id="r_heart" class="fa fa-heart addlike" style="font-size:24px;"></i><span id=rlike></span></li>
-								
-								
+								<li class="nav-item" id="ilkenum"><i id="r_heart"
+									class="fa fa-heart addlike" style="font-size: 24px;"></i><span
+									id=rlike></span></li>
+
+
 								<li class="nav-item rv_next"><div class="rv_control">
 										<i style="font-size: 24px" class="fa rv_next">&#xf105;</i>
 									</div></li>

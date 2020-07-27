@@ -87,17 +87,7 @@ function addlike(rno,likes){
 	})
 }
 
-
-
-
-
-
-
-
-
-
-
-
+// 0727수정 카트 페이징 기능 삭제
 
 function listCart(param_mno,page){
 	let pageNo = page> 1 ? page : 1;
@@ -155,7 +145,6 @@ function ordFromCart(){
     var cno = "";
     var pno = "";  
     // mno세션에서 가져오기
-    var mno = 1;
     var i;
     for (i = 1; i < cnos.length-1; i++) {
       if (cnos[i].checked) {
@@ -234,7 +223,7 @@ function delCart() {
     console.log(cnos);
     var cno = "";
     var i;
-    for (i = 0; i < cnos.length; i++) {
+    for (i = 1; i < cnos.length; i++) {
       if (cnos[i].checked) {
         cno = cno + cnos[i].value + ",";
       }

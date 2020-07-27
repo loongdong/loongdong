@@ -38,8 +38,9 @@
 	//mno 세션에서 가져오기
 	let mno = '<c:out value="${sesInfo.mno }"/>'
 	listCart(mno, 1);
-	$(document).on("click", "#cartPaging li a", function(e) {
-		e.preventDefault();
+	//페이징버튼클릭시 이동
+/* 	$(document).on("click", "#cartPaging li a", function(e) {
+		e.preventDefault(e);
 		listCart(mno, $(this).attr("href"));
-	});
+	}); */
 </script>

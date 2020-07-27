@@ -32,17 +32,17 @@ public class CartCtrl {
 
 	@GetMapping("/add")
 	public String add(CartVO cvo) {
-		log.info("mno : "+cvo.getMno());
-		log.info("pno : "+cvo.getPno());
+		log.info("mno : " + cvo.getMno());
+		log.info("pno : " + cvo.getPno());
 		csv.addCart(cvo);
-		return "redirect:/";
+		return "redirect:/order/totalinfo?cate=2";
 	}
-	
-	
 
 	@PostMapping("/del")
 	public String del(@RequestParam("cno") String cno) {
+		log.info(">>> cno : " + cno);
 		String[] arr = cno.split(",");
+		log.info(">>> arr : " + arr);
 		for (int i = 0; i < arr.length; i++) {
 			log.info(arr[i]);
 			int cno1 = Integer.parseInt(arr[i]);

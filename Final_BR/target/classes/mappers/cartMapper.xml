@@ -13,19 +13,21 @@
 		delete from tbl_cart where
 		cno=#{cno}
 	</delete>
-	<select id="list" resultType="CartVO"
-		parameterType="java.util.HashMap">
 
-		 <![CDATA[    
-    select cno, pno, pname, category, price, pimg
-    from (select /*+INDEX(tbl_product pk_product)*/
-      rownum as rn, tc.cno as cno, tp.pno as pno, pname as pname,category as category, price as price, pimg as pimg
-      from tbl_product tp INNER JOIN TBL_CART tc
-    ON tp.PNO = tc.PNO WHERE tc.mno = #{mno}
-       and rownum <= #{cri.pageNum} * #{cri.amount})
-    where rn > (#{cri.pageNum}-1) * #{cri.amount}
-    ]]>
+
+	<select id="list" resultType="CartVO"
+		parameterType="java.util.HashMap"> 
+    <![CDATA[ select cno, pno, pname, category, price, pimg from (select /*+INDEX(tbl_product 
+    pk_product)*/ rownum as rn, tc.cno as cno, tp.pno as pno, pname as pname,category 
+    as category, price as price, pimg as pimg from tbl_product tp INNER JOIN 
+    TBL_CART tc ON tp.PNO = tc.PNO WHERE tc.mno = #{mno}) where rn > 0 ]]>
 	</select>
+	<!-- <select id="list" resultType="CartVO" parameterType="java.util.HashMap"> 
+		<![CDATA[ select cno, pno, pname, category, price, pimg from (select /*+INDEX(tbl_product 
+		pk_product)*/ rownum as rn, tc.cno as cno, tp.pno as pno, pname as pname,category 
+		as category, price as price, pimg as pimg from tbl_product tp INNER JOIN 
+		TBL_CART tc ON tp.PNO = tc.PNO WHERE tc.mno = #{mno} and rownum <= #{cri.pageNum} 
+		* #{cri.amount}) where rn > (#{cri.pageNum}-1) * #{cri.amount} ]]> </select> -->
 
 	<select id="test" resultType="java.lang.String"
 		parameterType="java.lang.Integer">
